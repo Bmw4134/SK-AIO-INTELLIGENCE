@@ -1,0 +1,1 @@
+entrypoint = "bash terminal_setup.sh"

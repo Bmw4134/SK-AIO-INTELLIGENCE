@@ -1,0 +1,1124 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brett Watson | Vercel Agentic Showcase: All Roles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --card-background: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --accent-color: #0070f3;
+            --code-bg: #f3f4f6;
+            --success-color: #22c55e;
+            --danger-color: #ef4444;
+        }
+
+        html.dark {
+            --bg-primary: #000000;
+            --bg-secondary: #111111;
+            --card-background: rgba(255, 255, 255, 0.03);
+            --text-primary: #eaeaea;
+            --text-secondary: #888888;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-color: #38bdf8;
+            --code-bg: #0a0a0a;
+            --success-color: #4ade80;
+            --danger-color: #f87171;
+        }
+        
+        html.classic {
+            --bg-primary: #000000;
+            --bg-secondary: #0d0d0d;
+            --card-background: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --border-color: #333333;
+            --accent-color: #ffffff;
+            --code-bg: #1a1a1a;
+            --success-color: #ffffff;
+            --danger-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .shimmer-text {
+            background: linear-gradient(90deg, var(--text-primary) 25%, var(--accent-color) 50%, var(--text-primary) 75%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 5s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .card {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+        }
+        .view { display: none; }
+        .view.active { display: block; animation: viewFadeIn 0.5s ease-in-out; }
+        @keyframes viewFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link {
+            transition: all 0.2s ease-in-out;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+        }
+        .nav-link.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--accent-color);
+        }
+        .log-line { animation: fadeIn 0.3s forwards; opacity: 0; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes pulse-green {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(74, 222, 128, 0);
+            }
+        }
+        .animate-pulse-green {
+            animation: pulse-green 2s infinite;
+        }
+        #music-player {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+        }
+        #player-controls button svg {
+            fill: var(--text-primary);
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <div id="page-content" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-grow flex flex-col">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight shimmer-text">Brett Watson</h1>
+            <p class="mt-3 text-xl text-secondary">Founder & Systems Architect, DWC Systems LLC</p>
+            <div class="mt-6 text-secondary flex justify-center items-center gap-x-4 flex-wrap">
+                <a href="https://www.linkedin.com/in/brett-watson-31b49397/" target="_blank" rel="noopener noreferrer" class="hover:text-primary">LinkedIn</a>
+                <span class="text-slate-500">·</span>
+                <a href="https://github.com/Bmw4134" target="_blank" rel="noopener noreferrer" class="hover:text-primary">GitHub</a>
+                <span class="text-slate-500">·</span>
+                <a href="https://suno.com/@scoson" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Suno.ai (SCOSON)</a>
+            </div>
+             <div class="mt-4 text-secondary flex justify-center items-center gap-x-4 flex-wrap">
+                <span class="font-semibold text-primary">Custom GPTs:</span>
+                <a href="https://chatgpt.com/g/g-6872818584248191a4731239bcc35992-singularity-infinity-nocreate-variant" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Singularity Infinity</a>
+                 <span class="text-slate-500">·</span>
+                <a href="https://chatgpt.com/g/g-68203e8b47248191b572a0a8f362f44b-imagine-art-i" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Imagine-Art(I)</a>
+            </div>
+
+            <!-- Music Player -->
+            <div id="music-player" class="mt-8 w-full max-w-md mx-auto p-4 rounded-2xl flex items-center gap-x-4">
+                <audio id="audio-player"></audio>
+                <img id="album-art" src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=100&h=100&fit=crop" alt="Album Art" class="w-16 h-16 rounded-lg object-cover flex-shrink-0">
+                <div class="flex-grow overflow-hidden">
+                    <div id="song-info" class="mb-2">
+                        <p id="song-title" class="font-bold text-primary truncate">Song Title</p>
+                        <p id="song-artist" class="text-sm text-secondary truncate">Artist Name</p>
+                    </div>
+                    <div id="progress-container" class="w-full bg-code-bg rounded-full h-2 cursor-pointer">
+                        <div id="progress-bar" class="bg-accent-color h-2 rounded-full" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div id="player-controls" class="flex items-center gap-x-1 sm:gap-x-2 text-primary">
+                    <button id="prev-btn" class="p-2 rounded-full hover:bg-bg-secondary transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4.522 18.143a.5.5 0 01-.737-.442V6.3a.5.5 0 01.737-.442l10 5.5a.5.5 0 010 .884l-10 5.9z" transform="matrix(-1 0 0 1 15.522 -4.001)"></path><path d="M4.5 5.5a.5.5 0 00-.5.5v8a.5.5 0 001 0v-8a.5.5 0 00-.5-.5z"></path></svg>
+                    </button>
+                    <button id="play-btn" class="p-2 sm:p-3 rounded-full hover:bg-bg-secondary transition-colors">
+                        <svg id="play-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M4.522 18.143a.5.5 0 01-.737-.442V6.3a.5.5 0 01.737-.442l10 5.5a.5.5 0 010 .884l-10 5.9z" transform="translate(1.5 -2)"></path></svg>
+                        <svg id="pause-icon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 4h2a1 1 0 011 1v10a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1zm8 0h-2a1 1 0 00-1 1v10a1 1 0 001 1h2a1 1 0 001-1V5a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                    </button>
+                    <button id="next-btn" class="p-2 rounded-full hover:bg-bg-secondary transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4.522 18.143a.5.5 0 01-.737-.442V6.3a.5.5 0 01.737-.442l10 5.5a.5.5 0 010 .884l-10 5.9z" transform="translate(1.5 -2)"></path><path d="M14.5 5.5a.5.5 0 00-.5.5v8a.5.5 0 001 0v-8a.5.5 0 00-.5-.5z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Navigation Tabs -->
+        <nav class="flex justify-center items-center border-b border-border-color mb-12 flex-wrap">
+            <a href="#" data-view="dashboard" class="nav-link px-2 py-3 font-semibold">📈 Dashboard</a>
+            <a href="#" data-view="pm-studio" class="nav-link px-2 py-3 font-semibold">🚀 Product Manager</a>
+            <a href="#" data-view="tech-lead-studio" class="nav-link px-2 py-3 font-semibold">🏆 Technical Lead</a>
+            <a href="#" data-view="vercel-pm-role" class="nav-link px-2 py-3 font-semibold">💼 Vercel PM Sim</a>
+            <a href="#" data-view="dx-studio" class="nav-link px-2 py-3 font-semibold">📊 DX Studio</a>
+            <a href="#" data-view="gtm-sandbox" class="nav-link px-2 py-3 font-semibold">🧮 GTM ROI Sandbox</a>
+            <a href="#" data-view="cicd-playground" class="nav-link px-2 py-3 font-semibold">🛰️ CI/CD Playground</a>
+        </nav>
+
+        <main class="flex-grow">
+            <!-- Dashboard View -->
+            <div id="dashboard" class="view">
+                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left Column: Status & Actions -->
+                    <div class="lg:col-span-1 space-y-8">
+                        <div class="card rounded-2xl p-6">
+                            <h3 class="font-semibold text-primary mb-4">Live Status</h3>
+                            <div class="flex items-center gap-x-3 mb-4">
+                                <div class="w-4 h-4 rounded-full bg-success-color animate-pulse-green"></div>
+                                <span class="font-semibold text-success-color">All Systems Operational</span>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-secondary">Agent Uptime:</span>
+                                    <span class="font-medium text-primary">99.98%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-secondary">Avg. Response:</span>
+                                    <span class="font-medium text-primary">182ms</span>
+                                </div>
+                                 <div class="flex justify-between">
+                                    <span class="text-secondary">Active Agents:</span>
+                                    <span class="font-medium text-primary">42</span>
+                                </div>
+                            </div>
+                            <div class="mt-6 pt-6 border-t border-border-color space-y-3">
+                                 <button id="cta-run-growth-sim" class="w-full font-semibold text-white bg-accent-color/90 rounded-lg px-6 py-3 hover:bg-accent-color transition-all">🚀 Run Growth Simulation</button>
+                                 <button id="cta-run-cicd-pipeline" class="w-full font-semibold text-white bg-slate-700/90 rounded-lg px-6 py-3 hover:bg-slate-700 transition-all">🛰️ Run CI/CD Pipeline</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Charts -->
+                    <div class="lg:col-span-2 space-y-8">
+                         <div class="card rounded-2xl p-6">
+                            <h3 class="font-semibold text-primary mb-4 text-center">Live API Traffic</h3>
+                            <canvas id="trafficChart"></canvas>
+                        </div>
+                        <div class="card rounded-2xl p-6">
+                            <h3 class="font-semibold text-primary mb-4 text-center">Task Completion Rate</h3>
+                             <canvas id="taskCompletionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Manager Studio View -->
+            <div id="pm-studio" class="view">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-primary">Product Growth & Monetization Sandbox</h2>
+                    <p class="text-lg text-secondary mt-2">Modeling and experimenting with product-led growth funnels.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="card rounded-2xl p-6">
+                        <h3 class="font-semibold text-primary mb-4">Growth Funnel Levers</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="pm-activation" class="block text-sm font-medium text-secondary">Activation Rate (%)</label>
+                                <input id="pm-activation" type="range" min="5" max="50" value="20" class="w-full h-2 bg-border-color rounded-lg appearance-none cursor-pointer mt-1">
+                                <div class="text-right text-sm font-semibold text-primary"><span id="pm-activation-value">20</span>%</div>
+                            </div>
+                             <div>
+                                <label for="pm-conversion" class="block text-sm font-medium text-secondary">Conversion to Paid (%)</label>
+                                <input id="pm-conversion" type="range" min="1" max="20" value="5" class="w-full h-2 bg-border-color rounded-lg appearance-none cursor-pointer mt-1">
+                                <div class="text-right text-sm font-semibold text-primary"><span id="pm-conversion-value">5</span>%</div>
+                            </div>
+                             <div>
+                                <label for="pm-churn" class="block text-sm font-medium text-secondary">Monthly Churn Rate (%)</label>
+                                <input id="pm-churn" type="range" min="0.5" max="10" step="0.5" value="2" class="w-full h-2 bg-border-color rounded-lg appearance-none cursor-pointer mt-1">
+                                <div class="text-right text-sm font-semibold text-primary"><span id="pm-churn-value">2.0</span>%</div>
+                            </div>
+                        </div>
+                        <div class="mt-6 pt-6 border-t border-border-color">
+                             <h4 class="font-semibold text-primary mb-2">A/B Experiment</h4>
+                             <p class="text-xs text-secondary mb-3">Simulate an experiment to improve the user onboarding flow.</p>
+                             <button id="pm-experiment-btn" class="w-full font-semibold text-white bg-accent-color/80 rounded-lg px-6 py-3 hover:bg-accent-color transition-all">Run Onboarding Experiment</button>
+                        </div>
+                    </div>
+                    <div class="card rounded-2xl p-6">
+                        <h3 class="font-semibold text-primary mb-3">Simulated User Funnel</h3>
+                        <canvas id="funnelChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Lead Studio View -->
+            <div id="tech-lead-studio" class="view">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-primary">Technical Lead: Frontend Modernization</h2>
+                    <p class="text-lg text-secondary mt-2">Simulating a performance audit and modernization plan for an enterprise client.</p>
+                </div>
+                <div class="card rounded-2xl p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="font-semibold text-primary mb-3">1. Audit Legacy Frontend</h3>
+                            <p class="text-sm text-secondary mb-4">Enter a URL to simulate a performance audit. The agent will identify common bottlenecks.</p>
+                            <input id="audit-url" type="text" class="w-full bg-code-bg border border-border-color rounded-lg p-3 font-mono text-sm" value="https://legacy-ecom.example.com">
+                            <button id="audit-btn" class="mt-4 w-full font-semibold text-white bg-accent-color/80 rounded-lg px-6 py-3 hover:bg-accent-color transition-all">Audit & Propose Modernization</button>
+                        </div>
+                        <div id="audit-results" class="hidden">
+                            <h3 class="font-semibold text-primary mb-3">2. Modernization Plan</h3>
+                            <div class="space-y-3">
+                                <div class="p-3 bg-bg-secondary rounded-lg border border-border-color">
+                                    <p class="font-semibold text-danger-color">Issue: Large Client-Side JS Bundle</p>
+                                    <p class="text-sm text-secondary mt-1"><strong>Proposal:</strong> Migrate to Next.js App Router with React Server Components to reduce client-side JS and improve TTI.</p>
+                                </div>
+                                <div class="p-3 bg-bg-secondary rounded-lg border border-border-color">
+                                    <p class="font-semibold text-danger-color">Issue: Slow API Responses (TTFB)</p>
+                                    <p class="text-sm text-secondary mt-1"><strong>Proposal:</strong> Refactor data-fetching into Vercel Edge Functions co-located with the database for minimal latency.</p>
+                                </div>
+                                <div class="p-3 bg-bg-secondary rounded-lg border border-border-color">
+                                    <p class="font-semibold text-success-color">Projected Outcome</p>
+                                    <p class="text-sm text-secondary mt-1">Improve Vercel Speed Insights score from <span class="font-bold text-danger-color">65</span> to <span class="font-bold text-success-color">98</span>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vercel PM Role View -->
+            <div id="vercel-pm-role" class="view">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-primary">Vercel PM Growth Simulation</h2>
+                    <p class="text-lg text-secondary mt-2">Demonstrating key product management skills for the v0 team.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- A/B Test & Viral Post Sim -->
+                    <div class="space-y-8">
+                        <div class="card rounded-2xl p-6">
+                            <h3 class="font-semibold text-primary mb-2">1. Optimize Onboarding (A/B Test)</h3>
+                            <p class="text-sm text-secondary mb-4">Run a simulated A/B test on the signup flow to improve activation.</p>
+                            <button id="pm-sim-ab-test-btn" class="w-full font-semibold text-white bg-accent-color/80 rounded-lg px-6 py-3 hover:bg-accent-color transition-all">🚀 Launch Experiment</button>
+                            <div id="pm-sim-ab-test-results" class="hidden mt-4 p-4 bg-bg-secondary rounded-lg border border-border-color">
+                                <h4 class="font-semibold text-primary">Experiment Results:</h4>
+                                <p class="text-sm text-secondary mt-1">Variant B ("Magic Signup Link") was the winner!</p>
+                                <p class="font-bold text-success-color mt-2 text-lg">Activation Rate Lift: +12.5%</p>
+                            </div>
+                        </div>
+                        <div class="card rounded-2xl p-6">
+                             <h3 class="font-semibold text-primary mb-2">2. Enable Viral Posts</h3>
+                             <p class="text-sm text-secondary mb-4">Use an AI agent to draft a viral announcement for a new feature.</p>
+                             <input type="text" id="pm-sim-feature-input" class="w-full bg-code-bg border border-border-color rounded-lg p-3 text-sm" placeholder="Enter new feature name, e.g., 'Team Projects'">
+                             <button id="pm-sim-tweet-btn" class="mt-3 w-full font-semibold text-white bg-accent-color/80 rounded-lg px-6 py-3 hover:bg-accent-color transition-all">🤖 Generate Tweet</button>
+                             <div id="pm-sim-tweet-output" class="hidden mt-4 p-4 font-mono text-sm bg-code-bg rounded-lg border border-border-color"></div>
+                        </div>
+                    </div>
+
+                    <!-- Feature Roadmap -->
+                    <div class="card rounded-2xl p-6">
+                        <h3 class="font-semibold text-primary mb-4">3. Prioritized v0 Growth Roadmap</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-sm font-bold text-primary uppercase tracking-wider">🚢 Shipped</h4>
+                                <div class="mt-2 p-3 bg-bg-secondary rounded-lg border border-border-color">
+                                    <p class="font-medium text-primary">v0.1 - Core AI generation</p>
+                                    <p class="text-xs text-secondary mt-1">Initial launch of the text-to-UI engine.</p>
+                                </div>
+                            </div>
+                             <div>
+                                <h4 class="text-sm font-bold text-accent-color uppercase tracking-wider">🏃 In Progress</h4>
+                                <div class="mt-2 p-3 bg-bg-secondary rounded-lg border border-border-color ring-2 ring-accent-color">
+                                    <p class="font-medium text-primary">Team Collaboration Features</p>
+                                    <p class="text-xs text-secondary mt-1">Enable multiple users to edit and comment on the same project.</p>
+                                </div>
+                            </div>
+                             <div>
+                                <h4 class="text-sm font-bold text-secondary uppercase tracking-wider">📋 Backlog</h4>
+                                <div class="mt-2 p-3 bg-bg-secondary rounded-lg border border-border-color opacity-70">
+                                    <p class="font-medium text-primary">Community Showcase</p>
+                                    <p class="text-xs text-secondary mt-1">A public gallery for users to share their creations.</p>
+                                </div>
+                                <div class="mt-2 p-3 bg-bg-secondary rounded-lg border border-border-color opacity-70">
+                                    <p class="font-medium text-primary">Simplified Billing & Upgrades</p>
+                                    <p class="text-xs text-secondary mt-1">Streamline the process for users to move to paid plans.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- DX Studio View -->
+            <div id="dx-studio" class="view">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-primary">Developer Velocity Studio</h2>
+                    <p class="text-lg text-secondary mt-2">Simulating an agent that transforms complex workflows into simple commands.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="card rounded-2xl p-6">
+                        <h3 class="font-semibold text-primary mb-3">1. Enter a Complex Manual Workflow</h3>
+                        <textarea id="dx-input" class="w-full h-48 bg-code-bg border border-border-color rounded-lg p-3 font-mono text-sm text-secondary" placeholder="e.g., git clone ... && npm i && vercel link ..."></textarea>
+                        <button id="dx-mutate-btn" class="mt-4 w-full font-semibold text-white bg-accent-color/80 rounded-lg px-6 py-3 hover:bg-accent-color transition-all">Mutate to Agentic Command</button>
+                    </div>
+                    <div class="card rounded-2xl p-6">
+                        <h3 class="font-semibold text-primary mb-3">2. Agent-Simplified Equivalent</h3>
+                        <div id="dx-output" class="w-full h-48 bg-code-bg border border-border-color rounded-lg p-3 font-mono text-sm text-success-color"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GTM ROI Sandbox View -->
+            <div id="gtm-sandbox" class="view">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-primary">GTM Revenue Impact Sandbox</h2>
+                    <p class="text-lg text-secondary mt-2">Simulate how self-improving agents drive revenue growth over time.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 card rounded-2xl p-6">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <div class="card rounded-2xl p-6">
+                        <h3 class="font-semibold text-primary mb-4">Growth Assumptions</h3>
+                        <label for="gtm-slider" class="block text-sm font-medium text-secondary">Agent Performance Impact (%)</label>
+                        <input id="gtm-slider" type="range" min="1" max="25" value="10" class="w-full h-2 bg-border-color rounded-lg appearance-none cursor-pointer mt-2">
+                        <div class="text-center text-2xl font-bold text-primary mt-2"><span id="gtm-slider-value">10</span>%</div>
+                        <p class="text-xs text-secondary mt-2 text-center">Quarter-over-quarter growth driven by the AI agent's self-improvements.</p>
+                        <button id="export-chart-png" class="mt-6 w-full font-semibold text-white bg-accent-color/80 rounded-lg px-6 py-3 hover:bg-accent-color transition-all">Export Chart as PNG</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CI/CD Playground View -->
+            <div id="cicd-playground" class="view">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-primary">CI/CD Playground</h2>
+                    <p class="text-lg text-secondary mt-2">An interactive terminal simulating a self-healing deployment pipeline.</p>
+                </div>
+                <div class="card rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex border-b border-border-color">
+                            <button data-tab="build" class="terminal-tab nav-link active px-4 py-2 text-sm">Build Logs</button>
+                            <button data-tab="heal" class="terminal-tab nav-link px-4 py-2 text-sm">Self-Heal Actions</button>
+                            <button data-tab="tests" class="terminal-tab nav-link px-4 py-2 text-sm">Tests</button>
+                        </div>
+                        <button id="cicd-run-btn" class="font-semibold text-white bg-success-color/80 rounded-lg px-5 py-2 hover:bg-success-color transition-all">▶ Run</button>
+                    </div>
+                    <div class="w-full h-80 bg-black rounded-lg p-4 font-mono text-xs text-slate-300 overflow-y-auto">
+                        <div id="terminal-output"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Control Panel & Footer -->
+        <footer class="text-center mt-20 border-t border-border-color pt-8">
+            <div class="flex justify-center items-center gap-x-6 gap-y-4 flex-wrap">
+                <button id="mutate-ui-btn" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center">🎛️ Mutate App UI</button>
+                
+                <div class="flex items-center gap-x-2">
+                    <label for="api-provider" class="text-sm font-medium text-secondary">with</label>
+                    <select id="api-provider" class="bg-slate-800 border border-slate-700 text-white text-sm rounded-lg focus:ring-accent-color focus:border-accent-color block p-2">
+                        <option value="gemini" selected>Google Gemini</option>
+                        <option value="openai" disabled>OpenAI (Soon)</option>
+                        <option value="perplexity" disabled>Perplexity (Soon)</option>
+                    </select>
+                </div>
+
+                <button id="kaizen-loop-btn" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">🧬 View KaizenLoop</button>
+                <a href="#" id="download-mdx-link" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">📄 Download Articles (MDX)</a>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- KaizenLoop Modal -->
+    <div id="kaizen-modal" class="modal-overlay hidden">
+        <div class="card rounded-2xl p-8 max-w-2xl w-full m-4 relative">
+            <button id="close-kaizen-modal" class="absolute top-4 right-4 text-secondary hover:text-primary">&times;</button>
+            <h2 class="text-2xl font-bold text-primary mb-4">KaizenLoop: Self-Improvement Timeline</h2>
+            <div class="space-y-4 max-h-96 overflow-y-auto pr-4">
+                <!-- Timeline items will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module" defer>
+        import { GoogleGenAI, Type } from "@google/genai";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Gemini API Function ---
+            async function getNewTheme() {
+                // IMPORTANT: This key is read from the environment on the server-side
+                // or in a secure deployment environment. It should NOT be hardcoded here.
+                const apiKey = process.env.API_KEY;
+                if (!apiKey) {
+                     return { 
+                        error: true, 
+                        errorMessage: "API Key is missing. Please set it up in your deployment environment.",
+                        theme: { // A nice fallback theme
+                            '--bg-primary': '#1a202c',
+                            '--bg-secondary': '#2d3748',
+                            '--card-background': 'rgba(255, 255, 255, 0.05)',
+                            '--text-primary': '#e2e8f0',
+                            '--text-secondary': '#a0aec0',
+                            '--border-color': 'rgba(255, 255, 255, 0.1)',
+                            '--accent-color': '#63b3ed',
+                            '--code-bg': '#0d1117',
+                            '--success-color': '#68d391',
+                            '--danger-color': '#fc8181',
+                        }
+                    };
+                }
+
+                try {
+                    const ai = new GoogleGenAI({ apiKey });
+                    const response = await ai.models.generateContent({
+                        model: "gemini-2.5-flash",
+                        contents: "Generate a unique and professional color theme for a web UI. Provide distinct colors for background, text, accent, etc. The theme should be aesthetically pleasing and accessible.",
+                        config: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: Type.OBJECT,
+                                properties: {
+                                    '--bg-primary': { type: Type.STRING, description: 'Main background color.' },
+                                    '--bg-secondary': { type: Type.STRING, description: 'Slightly different background for secondary elements.' },
+                                    '--card-background': { type: Type.STRING, description: 'Background for card elements, can have transparency.' },
+                                    '--text-primary': { type: Type.STRING, description: 'Primary text color.' },
+                                    '--text-secondary': { type: Type.STRING, description: 'Secondary, less prominent text color.' },
+                                    '--border-color': { type: Type.STRING, description: 'Color for borders.' },
+                                    '--accent-color': { type: Type.STRING, description: 'Accent color for buttons, links, and highlights.' },
+                                    '--code-bg': { type: Type.STRING, description: 'Background for code blocks.' },
+                                    '--success-color': { type: Type.STRING, description: 'Color for success states.' },
+                                    '--danger-color': { type: Type.STRING, description: 'Color for error or danger states.' }
+                                }
+                            }
+                        }
+                    });
+
+                    const theme = JSON.parse(response.text);
+                    return { theme };
+
+                } catch (error) {
+                    console.error("Gemini API Error:", error);
+                     return { 
+                        error: true, 
+                        errorMessage: `API request failed. Please check your API key and its permissions. Details: ${error.message}`,
+                        theme: { // A nice fallback theme
+                            '--bg-primary': '#1a202c',
+                            '--bg-secondary': '#2d3748',
+                            '--card-background': 'rgba(255, 255, 255, 0.05)',
+                            '--text-primary': '#e2e8f0',
+                            '--text-secondary': '#a0aec0',
+                            '--border-color': 'rgba(255, 255, 255, 0.1)',
+                            '--accent-color': '#63b3ed',
+                            '--code-bg': '#0d1117',
+                            '--success-color': '#68d391',
+                            '--danger-color': '#fc8181',
+                        }
+                    };
+                }
+            }
+
+
+            // --- DOM Element Declarations ---
+            const views = document.querySelectorAll('.view');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mutateUIBtn = document.getElementById('mutate-ui-btn');
+            
+            // Dashboard elements
+            const trafficChartCanvas = document.getElementById('trafficChart');
+            const taskCompletionChartCanvas = document.getElementById('taskCompletionChart');
+            let trafficChartInstance, taskCompletionChartInstance;
+            const ctaRunGrowthSim = document.getElementById('cta-run-growth-sim');
+            const ctaRunCicdPipeline = document.getElementById('cta-run-cicd-pipeline');
+
+
+            // PM Studio Elements
+            const pmActivationSlider = document.getElementById('pm-activation');
+            const pmConversionSlider = document.getElementById('pm-conversion');
+            const pmChurnSlider = document.getElementById('pm-churn');
+            const pmExperimentBtn = document.getElementById('pm-experiment-btn');
+            const funnelChartCanvas = document.getElementById('funnelChart');
+            let funnelChartInstance;
+            
+            // Vercel PM Sim Elements
+            const pmSimAbTestBtn = document.getElementById('pm-sim-ab-test-btn');
+            const pmSimAbTestResults = document.getElementById('pm-sim-ab-test-results');
+            const pmSimTweetBtn = document.getElementById('pm-sim-tweet-btn');
+            const pmSimFeatureInput = document.getElementById('pm-sim-feature-input');
+            const pmSimTweetOutput = document.getElementById('pm-sim-tweet-output');
+
+
+            // Tech Lead Elements
+            const auditBtn = document.getElementById('audit-btn');
+            const auditResults = document.getElementById('audit-results');
+
+            // DX Studio Elements
+            const dxInput = document.getElementById('dx-input');
+            const dxOutput = document.getElementById('dx-output');
+            const dxMutateBtn = document.getElementById('dx-mutate-btn');
+
+            // GTM Sandbox Elements
+            const gtmSlider = document.getElementById('gtm-slider');
+            const gtmSliderValue = document.getElementById('gtm-slider-value');
+            const exportChartBtn = document.getElementById('export-chart-png');
+            const revenueChartCanvas = document.getElementById('revenueChart');
+            let revenueChartInstance;
+
+            // CI/CD Playground Elements
+            const terminalOutput = document.getElementById('terminal-output');
+            const terminalTabs = document.querySelectorAll('.terminal-tab');
+            const runBtn = document.getElementById('cicd-run-btn');
+            let activeTab = 'build';
+
+            // KaizenLoop Modal Elements
+            const kaizenModal = document.getElementById('kaizen-modal');
+            const kaizenBtn = document.getElementById('kaizen-loop-btn');
+            const closeKaizenBtn = document.getElementById('close-kaizen-modal');
+            
+            // Music Player Elements
+            const audioPlayer = document.getElementById('audio-player');
+            const playBtn = document.getElementById('play-btn');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const songTitleEl = document.getElementById('song-title');
+            const songArtistEl = document.getElementById('song-artist');
+            const albumArtEl = document.getElementById('album-art');
+            const progressContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            let currentTrackIndex = 0;
+            const playlist = [
+                // Replace these with your actual Suno.ai song URLs and metadata
+                { 
+                    title: "Starlight Echoes", 
+                    artist: "Cosmic Flow", 
+                    url: "https://archive.org/download/synthwave-outrun/synthwave-outrun.mp3",
+                    art: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=100&h=100&fit=crop"
+                },
+                { 
+                    title: "Neon Dreams", 
+                    artist: "Vector Dash", 
+                    url: "https://archive.org/download/freestyle-80s/freestyle-80s.mp3",
+                    art: "https://images.unsplash.com/photo-1574269939633-30239043744f?w=100&h=100&fit=crop"
+                },
+                 { 
+                    title: "Midnight Drive", 
+                    artist: "Grid Runner", 
+                    url: "https://archive.org/download/80s-synthwave-music/80s-synthwave-music.mp3",
+                    art: "https://images.unsplash.com/photo-1554306297-0c86e8675987?w=100&h=100&fit=crop"
+                }
+            ];
+
+            // --- App State & Navigation ---
+            function showView(viewId) {
+                if (!viewId) viewId = 'dashboard';
+                
+                views.forEach(view => {
+                    view.classList.toggle('active', view.id === viewId);
+                });
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.view === viewId);
+                });
+                
+                // Re-render charts if the view contains one
+                if (viewId === 'dashboard') {
+                    renderDashboardCharts();
+                }
+                if (viewId === 'gtm-sandbox') renderGTMChart();
+                if (viewId === 'pm-studio') renderFunnelChart();
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const viewId = e.currentTarget.dataset.view;
+                    showView(viewId);
+                });
+            });
+            
+            // --- Theme Mutation ---
+            async function applyTheme(theme) {
+                const root = document.documentElement;
+                if (!theme) return;
+                
+                Object.keys(theme).forEach(key => {
+                    root.style.setProperty(key, theme[key]);
+                });
+                
+                // Set a theme identifier on the body to allow chart colors to update
+                root.className = 'theme-mutated';
+                
+                // Update charts with new theme colors
+                const allCharts = [trafficChartInstance, taskCompletionChartInstance, funnelChartInstance, revenueChartInstance];
+                allCharts.forEach(chart => updateChartTheme(chart));
+            }
+
+            mutateUIBtn.addEventListener('click', async () => {
+                const originalText = mutateUIBtn.innerHTML;
+                mutateUIBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Mutating...`;
+                mutateUIBtn.disabled = true;
+
+                const { theme, error, errorMessage } = await getNewTheme();
+
+                if (error) {
+                    alert(errorMessage);
+                }
+                applyTheme(theme);
+                
+                mutateUIBtn.innerHTML = originalText;
+                mutateUIBtn.disabled = false;
+            });
+
+
+            function updateChartTheme(chartInstance) {
+                 const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-secondary');
+                 const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--border-color');
+                 if (chartInstance && chartInstance.options) {
+                    if(chartInstance.options.plugins.legend) {
+                        chartInstance.options.plugins.legend.labels.color = textColor;
+                    }
+                    if(chartInstance.options.plugins.title) {
+                        chartInstance.options.plugins.title.color = textColor;
+                    }
+                    if(chartInstance.options.scales.x) {
+                        chartInstance.options.scales.x.ticks.color = textColor;
+                        chartInstance.options.scales.x.grid.color = gridColor;
+                    }
+                    if(chartInstance.options.scales.y) {
+                        chartInstance.options.scales.y.ticks.color = textColor;
+                        chartInstance.options.scales.y.grid.color = gridColor;
+                    }
+                    chartInstance.update();
+                 }
+            }
+            
+            // --- Dashboard Logic ---
+            function renderDashboardCharts() {
+                // Live Traffic Chart
+                const trafficCtx = trafficChartCanvas.getContext('2d');
+                const trafficInitialData = {
+                    labels: Array.from({length: 15}, (_, i) => i),
+                    datasets: [{
+                        label: 'API Calls',
+                        data: Array.from({length: 15}, () => Math.floor(Math.random() * (150 - 50 + 1) + 50)),
+                        borderColor: 'var(--accent-color)',
+                        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                    }]
+                };
+
+                if (trafficChartInstance) trafficChartInstance.destroy();
+                trafficChartInstance = new Chart(trafficCtx, {
+                    type: 'line',
+                    data: trafficInitialData,
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+                
+                // Live update for traffic chart
+                setInterval(() => {
+                    if (trafficChartInstance) {
+                        const newData = Math.floor(Math.random() * (150 - 50 + 1) + 50);
+                        trafficChartInstance.data.labels.push(trafficChartInstance.data.labels.length);
+                        trafficChartInstance.data.labels.shift();
+                        trafficChartInstance.data.datasets[0].data.push(newData);
+                        trafficChartInstance.data.datasets[0].data.shift();
+                        trafficChartInstance.update('quiet');
+                    }
+                }, 2000);
+
+
+                // Task Completion Chart
+                const taskCompletionCtx = taskCompletionChartCanvas.getContext('2d');
+                const taskCompletionData = {
+                    labels: ['Succeeded', 'Failed', 'In Progress'],
+                    datasets: [{
+                        label: 'Task Status',
+                        data: [92, 3, 5],
+                        backgroundColor: [
+                            'var(--success-color)',
+                            'var(--danger-color)',
+                            'var(--accent-color)'
+                        ],
+                        borderColor: 'var(--card-background)',
+                        borderWidth: 4,
+                    }]
+                };
+                if (taskCompletionChartInstance) taskCompletionChartInstance.destroy();
+                taskCompletionChartInstance = new Chart(taskCompletionCtx, {
+                    type: 'doughnut',
+                    data: taskCompletionData,
+                    options: {
+                        responsive: true,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                   padding: 20,
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                updateChartTheme(trafficChartInstance);
+                updateChartTheme(taskCompletionChartInstance);
+            }
+            
+            ctaRunGrowthSim.addEventListener('click', () => showView('pm-studio'));
+            ctaRunCicdPipeline.addEventListener('click', () => showView('cicd-playground'));
+
+
+            // --- Product Manager Studio Logic ---
+            function renderFunnelChart() {
+                const activation = parseInt(pmActivationSlider.value);
+                const conversion = parseInt(pmConversionSlider.value);
+                const churn = parseFloat(pmChurnSlider.value);
+                const users = 10000;
+                const activated = users * (activation / 100);
+                const paid = activated * (conversion / 100);
+                const retained = paid * (1 - (churn / 100));
+                const data = {
+                    labels: ['Acquired', 'Activated', 'Converted', 'Retained'],
+                    datasets: [{
+                        label: 'User Funnel',
+                        data: [users, activated, paid, retained],
+                        backgroundColor: [
+                            'hsla(210, 89%, 64%, 0.7)', 
+                            'hsla(210, 89%, 74%, 0.7)', 
+                            'hsla(210, 89%, 84%, 0.7)', 
+                            'hsla(210, 89%, 94%, 0.7)'
+                        ],
+                        borderColor: 'var(--accent-color)',
+                        borderWidth: 1
+                    }]
+                };
+                if (funnelChartInstance) funnelChartInstance.destroy();
+                const funnelCtx = funnelChartCanvas.getContext('2d');
+                funnelChartInstance = new Chart(funnelCtx, {
+                    type: 'bar',
+                    data: data,
+                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } }
+                });
+                updateChartTheme(funnelChartInstance);
+            }
+
+            [pmActivationSlider, pmConversionSlider, pmChurnSlider].forEach(slider => {
+                if(slider) {
+                    const valueEl = document.getElementById(`${slider.id}-value`);
+                    valueEl.textContent = slider.value;
+                    slider.addEventListener('input', (e) => {
+                        valueEl.textContent = e.target.value;
+                        renderFunnelChart();
+                    });
+                }
+            });
+
+            pmExperimentBtn.addEventListener('click', () => {
+                pmExperimentBtn.disabled = true;
+                pmExperimentBtn.textContent = 'Running Experiment...';
+                const originalActivation = pmActivationSlider.value;
+                pmActivationSlider.value = Math.min(50, parseFloat(originalActivation) + 5); 
+                document.getElementById('pm-activation-value').textContent = pmActivationSlider.value;
+                renderFunnelChart();
+                setTimeout(() => {
+                    alert('Experiment Complete: New onboarding flow improved activation!');
+                    pmExperimentBtn.disabled = false;
+                    pmExperimentBtn.textContent = 'Run Onboarding Experiment';
+                }, 1500);
+            });
+
+            // --- Vercel PM Sim Logic ---
+            pmSimAbTestBtn.addEventListener('click', () => {
+                pmSimAbTestBtn.textContent = 'Analyzing Results...';
+                pmSimAbTestBtn.disabled = true;
+                setTimeout(() => {
+                    pmSimAbTestResults.classList.remove('hidden');
+                    pmSimAbTestBtn.textContent = '🚀 Launch Experiment';
+                    pmSimAbTestBtn.disabled = false;
+                }, 1500);
+            });
+
+            pmSimTweetBtn.addEventListener('click', async () => {
+                const feature = pmSimFeatureInput.value || 'our new AI-powered feature';
+                const originalText = pmSimTweetBtn.innerHTML;
+                pmSimTweetBtn.disabled = true;
+                pmSimTweetBtn.innerHTML = `
+                     <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Generating...`;
+                
+                try {
+                    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+                    const response = await ai.models.generateContent({
+                       model: "gemini-2.5-flash",
+                       contents: `Generate a short, viral, and exciting tweet announcing a new feature for v0, our text-to-UI product. The feature is called "${feature}". Include relevant hashtags like #v0, #AI, #WebDev. Keep it under 280 characters.`
+                    });
+                    
+                    pmSimTweetOutput.textContent = response.text;
+                    pmSimTweetOutput.classList.remove('hidden');
+
+                } catch(e) {
+                    alert('Could not generate tweet. Check API Key.');
+                } finally {
+                     pmSimTweetBtn.innerHTML = originalText;
+                     pmSimTweetBtn.disabled = false;
+                }
+            });
+
+
+            // --- Tech Lead Studio Logic ---
+            auditBtn.addEventListener('click', () => {
+                auditBtn.textContent = 'Auditing...';
+                auditBtn.disabled = true;
+                setTimeout(() => {
+                    auditResults.classList.remove('hidden');
+                    auditBtn.textContent = 'Audit & Propose Modernization';
+                    auditBtn.disabled = false;
+                }, 1500);
+            });
+
+            // --- DX Studio Logic ---
+            dxInput.value = `git clone https://github.com/user/repo.git && \\\ncd repo && \\\nnpm install && \\\necho "API_KEY=..." > .env && \\\nvercel deploy --prod`;
+            dxMutateBtn.addEventListener('click', () => {
+                dxOutput.innerHTML = '';
+                const agentCommand = `agent deploy --goal "Deploy repo with API key"`;
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i < agentCommand.length) {
+                        dxOutput.textContent += agentCommand[i];
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 50);
+            });
+
+            // --- GTM Sandbox Logic ---
+            function renderGTMChart() {
+                const growthRate = parseInt(gtmSlider.value) / 100;
+                const labels = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1 (f)', 'Q2 (f)'];
+                const staticData = [100, 102, 104, 106, 108, 110];
+                let agentData = [100];
+                for (let i = 1; i < labels.length; i++) {
+                    agentData.push(agentData[i - 1] * (1 + growthRate));
+                }
+                const data = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Revenue (Static)',
+                        data: staticData,
+                        borderColor: 'var(--text-secondary)',
+                        borderDash: [5, 5],
+                        tension: 0.1,
+                    }, {
+                        label: 'Revenue (Agent-Driven)',
+                        data: agentData,
+                        borderColor: 'var(--success-color)',
+                        backgroundColor: 'rgba(74, 222, 128, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                    }]
+                };
+                if (revenueChartInstance) revenueChartInstance.destroy();
+                const revenueCtx = revenueChartCanvas.getContext('2d');
+                revenueChartInstance = new Chart(revenueCtx, {
+                    type: 'line',
+                    data: data,
+                    options: { responsive: true, plugins: { legend: { display: false } } }
+                });
+                updateChartTheme(revenueChartInstance);
+            }
+
+            gtmSlider.addEventListener('input', (e) => {
+                gtmSliderValue.textContent = e.target.value;
+                localStorage.setItem('gtmGrowthRate', e.target.value);
+                renderGTMChart();
+            });
+            
+            exportChartBtn.addEventListener('click', () => {
+                const a = document.createElement('a');
+                a.href = revenueChartInstance.toBase64Image();
+                a.download = 'revenue_impact_simulation.png';
+                a.click();
+            });
+
+            if (localStorage.getItem('gtmGrowthRate')) {
+                gtmSlider.value = localStorage.getItem('gtmGrowthRate');
+                gtmSliderValue.textContent = gtmSlider.value;
+            }
+            
+            // --- CI/CD Playground Logic ---
+            const logs = {
+                build: ["Initializing build environment...", "Cloning repository...", "Installing dependencies...", "Running tests... 235 passed.", "Creating production build...", "Build successful. Artifact ready."],
+                heal: ["Canary deployment detected performance degradation.", "Health signal below threshold (0.95 -> 0.81).", "Triggering automated rollback...", "Rolling back to previous deployment `dpl_xyz789`.", "Rollback successful. System stable."],
+                tests: ["✓ Renders component without crashing.", "✓ Handles user input correctly.", "✓ State is updated on event.", "✓ API call mock is successful.", "✓ Accessibility check passed.", "All 235 tests passed."]
+            };
+
+            function streamLogs() {
+                runBtn.disabled = true;
+                terminalOutput.innerHTML = '';
+                const logLines = logs[activeTab];
+                let i = 0;
+                const interval = setInterval(() => {
+                    if (i < logLines.length) {
+                        const line = document.createElement('div');
+                        line.className = 'log-line opacity-0';
+                        line.textContent = `[${new Date().toLocaleTimeString()}] ${logLines[i]}`;
+                        terminalOutput.appendChild(line);
+                        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                        runBtn.disabled = false;
+                    }
+                }, 300);
+            }
+
+            terminalTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    activeTab = tab.dataset.tab;
+                    terminalTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    streamLogs();
+                });
+            });
+
+            runBtn.addEventListener('click', streamLogs);
+            
+            // --- KaizenLoop Modal ---
+            kaizenBtn.addEventListener('click', () => kaizenModal.classList.remove('hidden'));
+            closeKaizenBtn.addEventListener('click', () => kaizenModal.classList.add('hidden'));
+            
+            const kaizenTimeline = kaizenModal.querySelector('.space-y-4');
+            const improvements = [
+                { version: 'v2.1', change: 'Increased `max_tokens` for GTM content generation.', kpi: 'Content Score: +12%', prompt: 'Reframe article for GTM...' },
+                { version: 'v2.0', change: 'Added caching layer to DX `StateCoherenceAdapter`.', kpi: 'Latency: -45ms', prompt: 'Review this DX agent...' },
+                { version: 'v1.9', change: 'Refined CI/CD dependency audit prompt for clarity.', kpi: 'False Positives: -8%', prompt: 'Analyze dependencies for vulnerabilities...' }
+            ];
+            kaizenTimeline.innerHTML = improvements.map(item => `
+                <div class="p-3 bg-bg-secondary rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <span class="font-semibold text-primary">${item.version}: ${item.change}</span>
+                        <span class="text-xs font-bold text-success-color">${item.kpi}</span>
+                    </div>
+                    <p class="text-xs text-secondary mt-1 font-mono">Triggering Prompt: "${item.prompt}"</p>
+                </div>
+            `).join('');
+            
+            // --- Music Player Logic ---
+            function loadTrack(trackIndex) {
+                const track = playlist[trackIndex];
+                audioPlayer.src = track.url;
+                songTitleEl.textContent = track.title;
+                songArtistEl.textContent = track.artist;
+                albumArtEl.src = track.art;
+                audioPlayer.load();
+                updateProgressBar();
+            }
+
+            function playTrack() {
+                audioPlayer.play();
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            }
+
+            function pauseTrack() {
+                audioPlayer.pause();
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+            
+            function togglePlay() {
+                if (audioPlayer.paused) {
+                    playTrack();
+                } else {
+                    pauseTrack();
+                }
+            }
+
+            function prevTrack() {
+                currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+                loadTrack(currentTrackIndex);
+                playTrack();
+            }
+            
+            function nextTrack() {
+                currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+                loadTrack(currentTrackIndex);
+                playTrack();
+            }
+            
+            function updateProgressBar() {
+                if(!audioPlayer.duration) return;
+                const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+            }
+
+            function setProgress(e) {
+                const width = this.clientWidth;
+                const clickX = e.offsetX;
+                const duration = audioPlayer.duration;
+                if(duration) {
+                    audioPlayer.currentTime = (clickX / width) * duration;
+                }
+            }
+
+            playBtn.addEventListener('click', togglePlay);
+            prevBtn.addEventListener('click', prevTrack);
+            nextBtn.addEventListener('click', nextTrack);
+            audioPlayer.addEventListener('timeupdate', updateProgressBar);
+            audioPlayer.addEventListener('ended', nextTrack);
+            progressContainer.addEventListener('click', setProgress);
+
+
+            // --- Final Setup ---
+            document.getElementById('download-mdx-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('This would download a combined MDX file of the showcase articles.');
+            });
+            
+            loadTrack(currentTrackIndex);
+            showView('dashboard');
+        });
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

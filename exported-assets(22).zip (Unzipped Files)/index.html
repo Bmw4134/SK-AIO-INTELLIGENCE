@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Singularity Kernel - EDM Creation & Generation Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="header-title">Singularity Kernel</h1>
+                    <p class="header-subtitle">Recursive DNA Synthesis for EDM Creation</p>
+                </div>
+                <div class="header-right">
+                    <div class="credit-display">
+                        <div class="credit-counter">
+                            <span class="credit-amount" id="creditAmount">347</span>
+                            <span class="credit-label">Credits</span>
+                        </div>
+                        <button class="btn btn--primary btn--sm" onclick="showUpgradeModal()">Upgrade</button>
+                    </div>
+                    <div class="subscription-tier">
+                        <span class="tier-badge tier-creator">Creator Plan</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-section="prompt-builder">Prompt Builder</button>
+                <button class="nav-tab" data-section="mutation-engine">Mutation Engine</button>
+                <button class="nav-tab" data-section="visual-sync">Visual Sync</button>
+                <button class="nav-tab" data-section="analytics">Analytics</button>
+                <button class="nav-tab" data-section="export">Export</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Prompt Builder Section -->
+            <section id="prompt-builder" class="section active">
+                <div class="section-header">
+                    <h2>Suno Custom Builder</h2>
+                    <p>Create your EDM masterpiece with structured prompts</p>
+                </div>
+
+                <div class="prompt-builder-grid">
+                    <!-- Style Section -->
+                    <div class="prompt-section">
+                        <div class="prompt-section-header">
+                            <h3>Style Description</h3>
+                            <button class="btn btn--sm btn--outline" onclick="loadTemplate('bounce-grime')">Load Template</button>
+                        </div>
+                        <textarea 
+                            id="styleInput" 
+                            class="form-control monospace-textarea" 
+                            placeholder="Maximal entropy bounce-grime-UKG emotional garage fusion with Ross-from-Friends analog tape warmth. Field-recorded rainfall textures as polyrhythmic foundation..."
+                        ></textarea>
+                        <div class="prompt-helper">
+                            <span class="helper-text">Focus on genre fusion, analog warmth, and sonic textures</span>
+                        </div>
+                    </div>
+
+                    <!-- Lyrics Section -->
+                    <div class="prompt-section">
+                        <div class="prompt-section-header">
+                            <h3>Lyrics Structure</h3>
+                            <div class="section-controls">
+                                <select class="form-control form-control--sm" onchange="insertLyricsStructure(this.value)">
+                                    <option value="">Insert Structure</option>
+                                    <option value="intro">[Intro]</option>
+                                    <option value="build">[Phase 1: Emergence]</option>
+                                    <option value="drop">[Zoom In Phase]</option>
+                                    <option value="breakdown">[Glitch-Break Bridge]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <textarea 
+                            id="lyricsInput" 
+                            class="form-control monospace-textarea" 
+                            placeholder="[Intro][Field Recording][Rainfall Texture]&#10;[Phase 1: Emergence][Bounce-Grime Foundation]&#10;Rain drops like memories falling&#10;Digital static through the calling..."
+                        ></textarea>
+                        <div class="prompt-helper">
+                            <span class="helper-text">Structure with phases, emotional arcs, and sync triggers</span>
+                        </div>
+                    </div>
+
+                    <!-- FX Section -->
+                    <div class="prompt-section">
+                        <div class="prompt-section-header">
+                            <h3>FX Processing</h3>
+                            <button class="btn btn--sm btn--outline" onclick="addFxBlock()">Add FX Block</button>
+                        </div>
+                        <textarea 
+                            id="fxInput" 
+                            class="form-control monospace-textarea" 
+                            placeholder="[Sub Mono Lock: 78Hz]&#10;[Bass Tube Saturation: Warm Drive]&#10;[Ross-from-Friends Analog Emulation: Tape Warmth]&#10;[Stereo Shimmer: 9kHz Bloom Enhancement]..."
+                        ></textarea>
+                        <div class="prompt-helper">
+                            <span class="helper-text">Processing chains, frequency locks, and visual sync cues</span>
+                        </div>
+                    </div>
+
+                    <!-- Generation Controls -->
+                    <div class="generation-controls">
+                        <div class="control-group">
+                            <label class="form-label">Duration</label>
+                            <select class="form-control" id="durationSelect">
+                                <option value="2-3min">2-3 Minutes (10 Credits)</option>
+                                <option value="8min" selected>8 Minutes Extended (25 Credits)</option>
+                                <option value="12min">12 Minutes Longform (40 Credits)</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label class="form-label">Genre Template</label>
+                            <select class="form-control" id="genreTemplate" onchange="applyGenreTemplate()">
+                                <option value="">Custom</option>
+                                <option value="bounce-grime">Bounce-Grime Fusion</option>
+                                <option value="emotional-garage">Emotional Garage</option>
+                                <option value="ross-deep">Ross-from-Friends Deep</option>
+                            </select>
+                        </div>
+                        <div class="control-group control-group--full">
+                            <button class="btn btn--primary btn--lg btn--full-width" onclick="generateMusic()">
+                                Generate Music (25 Credits)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mutation Engine Section -->
+            <section id="mutation-engine" class="section">
+                <div class="section-header">
+                    <h2>Recursive Mutation Engine</h2>
+                    <p>Evolve your prompts through AI-driven mutations</p>
+                </div>
+
+                <div class="mutation-interface">
+                    <div class="current-prompt-display">
+                        <h3>Current Prompt DNA</h3>
+                        <div class="prompt-dna-container">
+                            <div class="dna-section">
+                                <label>Style:</label>
+                                <div class="dna-content" id="currentStyle">No prompt loaded</div>
+                            </div>
+                            <div class="dna-section">
+                                <label>Lyrics:</label>
+                                <div class="dna-content" id="currentLyrics">No prompt loaded</div>
+                            </div>
+                            <div class="dna-section">
+                                <label>FX:</label>
+                                <div class="dna-content" id="currentFx">No prompt loaded</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mutation-controls">
+                        <div class="mutation-settings">
+                            <div class="form-group">
+                                <label class="form-label">Mutation Intensity</label>
+                                <input type="range" class="slider" id="mutationSlider" min="0" max="100" value="35">
+                                <div class="slider-labels">
+                                    <span>Conservative</span>
+                                    <span>Radical</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Focus Area</label>
+                                <select class="form-control">
+                                    <option value="all">All Elements</option>
+                                    <option value="style">Style Only</option>
+                                    <option value="lyrics">Lyrics Only</option>
+                                    <option value="fx">FX Chain Only</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn--primary btn--lg" onclick="generateMutation()">
+                            Mutate DNA (2 Credits)
+                        </button>
+                    </div>
+
+                    <div class="mutation-suggestions" id="mutationSuggestions">
+                        <h3>Mutation Suggestions</h3>
+                        <div class="suggestions-container">
+                            <div class="suggestion-card">
+                                <div class="suggestion-content">Click "Mutate DNA" to generate creative variations</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mutation-genealogy">
+                        <h3>Generation History</h3>
+                        <div class="genealogy-tree" id="genealogyTree">
+                            <div class="gen-node gen-node--root">Original Prompt</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visual Sync Section -->
+            <section id="visual-sync" class="section">
+                <div class="section-header">
+                    <h2>Audio-Visual Sync Preview</h2>
+                    <p>Real-time visualization of sync triggers and effects</p>
+                </div>
+
+                <div class="visual-sync-interface">
+                    <div class="sync-preview-container">
+                        <canvas id="syncCanvas" width="800" height="400"></canvas>
+                        <div class="sync-controls">
+                            <button class="btn btn--primary" onclick="startSyncPreview()">Start Preview</button>
+                            <button class="btn btn--secondary" onclick="stopSyncPreview()">Stop</button>
+                            <button class="btn btn--outline" onclick="triggerFloorCollapse()">Floor Collapse</button>
+                            <button class="btn btn--outline" onclick="triggerBasslineMelt()">Bassline Melt</button>
+                            <button class="btn btn--outline" onclick="triggerShimmerBloom()">Shimmer Bloom</button>
+                        </div>
+                    </div>
+
+                    <div class="sync-trigger-settings">
+                        <h3>Trigger Configuration</h3>
+                        <div class="trigger-grid">
+                            <div class="trigger-card">
+                                <h4>Floor Collapse</h4>
+                                <div class="trigger-details">
+                                    <span class="frequency">78Hz Sub-Bass</span>
+                                    <span class="effect">Particle Dissolution</span>
+                                    <span class="color-preview" style="background: linear-gradient(45deg, #1FB8CD, #5D1A8B);"></span>
+                                </div>
+                                <div class="trigger-status">
+                                    <span class="status-indicator status-ready">Ready</span>
+                                </div>
+                            </div>
+
+                            <div class="trigger-card">
+                                <h4>Bassline Melt</h4>
+                                <div class="trigger-details">
+                                    <span class="frequency">80-200Hz Mid-Bass</span>
+                                    <span class="effect">Fluid Morphing</span>
+                                    <span class="color-preview" style="background: linear-gradient(45deg, #00FFFF, #FF00FF);"></span>
+                                </div>
+                                <div class="trigger-status">
+                                    <span class="status-indicator status-active">Active</span>
+                                </div>
+                            </div>
+
+                            <div class="trigger-card">
+                                <h4>Shimmer Bloom</h4>
+                                <div class="trigger-details">
+                                    <span class="frequency">9kHz+ High-Freq</span>
+                                    <span class="effect">Sparkle Generation</span>
+                                    <span class="color-preview" style="background: linear-gradient(45deg, #FFFFFF, #FF6B9D);"></span>
+                                </div>
+                                <div class="trigger-status">
+                                    <span class="status-indicator status-pending">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="section">
+                <div class="section-header">
+                    <h2>Emotional Analytics Dashboard</h2>
+                    <p>Track valence, arousal, and emotional journey patterns</p>
+                </div>
+
+                <div class="analytics-dashboard">
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <h3>Emotional Journey</h3>
+                            <div class="chart-container">
+                                <canvas id="emotionalChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <h3>Phase Analysis</h3>
+                            <div class="phase-metrics">
+                                <div class="phase-item">
+                                    <div class="phase-header">
+                                        <span class="phase-name">Build-up</span>
+                                        <span class="phase-duration">30-60s</span>
+                                    </div>
+                                    <div class="phase-meters">
+                                        <div class="meter">
+                                            <label>Valence</label>
+                                            <div class="meter-bar">
+                                                <div class="meter-fill" style="width: 65%;"></div>
+                                                <span class="meter-value">0.3 → 0.8</span>
+                                            </div>
+                                        </div>
+                                        <div class="meter">
+                                            <label>Arousal</label>
+                                            <div class="meter-bar">
+                                                <div class="meter-fill" style="width: 85%;"></div>
+                                                <span class="meter-value">0.4 → 0.9</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="phase-item">
+                                    <div class="phase-header">
+                                        <span class="phase-name">Drop</span>
+                                        <span class="phase-duration">15-30s</span>
+                                    </div>
+                                    <div class="phase-meters">
+                                        <div class="meter">
+                                            <label>Valence</label>
+                                            <div class="meter-bar">
+                                                <div class="meter-fill" style="width: 95%;"></div>
+                                                <span class="meter-value">0.9</span>
+                                            </div>
+                                        </div>
+                                        <div class="meter">
+                                            <label>Arousal</label>
+                                            <div class="meter-bar">
+                                                <div class="meter-fill" style="width: 100%;"></div>
+                                                <span class="meter-value">1.0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="phase-item">
+                                    <div class="phase-header">
+                                        <span class="phase-name">Breakdown</span>
+                                        <span class="phase-duration">45-90s</span>
+                                    </div>
+                                    <div class="phase-meters">
+                                        <div class="meter">
+                                            <label>Valence</label>
+                                            <div class="meter-bar">
+                                                <div class="meter-fill" style="width: 50%;"></div>
+                                                <span class="meter-value">0.6 → 0.4</span>
+                                            </div>
+                                        </div>
+                                        <div class="meter">
+                                            <label>Arousal</label>
+                                            <div class="meter-bar">
+                                                <div class="meter-fill" style="width: 55%;"></div>
+                                                <span class="meter-value">0.8 → 0.3</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <h3>Generation Statistics</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-value">23</span>
+                                    <span class="stat-label">Total Generations</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value">8.7</span>
+                                    <span class="stat-label">Avg Duration (min)</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value">0.82</span>
+                                    <span class="stat-label">Avg Valence</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value">0.94</span>
+                                    <span class="stat-label">Peak Arousal</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Export Section -->
+            <section id="export" class="section">
+                <div class="section-header">
+                    <h2>Export & Distribution</h2>
+                    <p>Export your creations with full metadata and distribution options</p>
+                </div>
+
+                <div class="export-interface">
+                    <div class="export-options">
+                        <div class="export-card">
+                            <h3>Audio Export</h3>
+                            <div class="export-settings">
+                                <div class="form-group">
+                                    <label class="form-label">Format</label>
+                                    <select class="form-control">
+                                        <option>WAV (Uncompressed)</option>
+                                        <option>MP3 320kbps</option>
+                                        <option>FLAC (Lossless)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Sample Rate</label>
+                                    <select class="form-control">
+                                        <option>44.1 kHz</option>
+                                        <option>48 kHz</option>
+                                        <option>96 kHz</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn--primary btn--full-width">Download Audio</button>
+                        </div>
+
+                        <div class="export-card">
+                            <h3>Video Sync Export</h3>
+                            <div class="export-settings">
+                                <div class="form-group">
+                                    <label class="form-label">Resolution</label>
+                                    <select class="form-control">
+                                        <option>1920x1080 (Full HD)</option>
+                                        <option>3840x2160 (4K)</option>
+                                        <option>1280x720 (HD)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Frame Rate</label>
+                                    <select class="form-control">
+                                        <option>60 FPS</option>
+                                        <option>30 FPS</option>
+                                        <option>24 FPS</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn--primary btn--full-width">Generate Video (20 Credits)</button>
+                        </div>
+
+                        <div class="export-card">
+                            <h3>Metadata Export</h3>
+                            <div class="metadata-preview">
+                                <pre id="metadataPreview">{
+  "title": "Generated Track",
+  "genre": "Bounce-Grime Fusion",
+  "duration": "8:24",
+  "emotional_arc": "Aggressive → Euphoric → Contemplative",
+  "sync_triggers": ["Floor Collapse", "Bassline Melt"],
+  "generation_params": {
+    "mutation_rate": 0.35,
+    "style_focus": "analog_warmth"
+  }
+}</pre>
+                            </div>
+                            <button class="btn btn--outline btn--full-width">Download JSON</button>
+                        </div>
+
+                        <div class="export-card">
+                            <h3>DistroKid Integration</h3>
+                            <div class="distrokid-status">
+                                <div class="integration-status">
+                                    <span class="status-indicator status-available">Connected</span>
+                                    <span>Ready for distribution</span>
+                                </div>
+                                <div class="distribution-settings">
+                                    <div class="form-group">
+                                        <label class="form-label">Release Type</label>
+                                        <select class="form-control">
+                                            <option>Single</option>
+                                            <option>EP</option>
+                                            <option>Album</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn--primary btn--full-width">Distribute Track</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Upgrade Modal -->
+    <div id="upgradeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Upgrade Your Plan</h3>
+                <button class="modal-close" onclick="hideUpgradeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h4>Creator</h4>
+                        <div class="price">$9<span>/month</span></div>
+                        <div class="credits">300 Credits</div>
+                        <ul class="features">
+                            <li>Visual sync preview</li>
+                            <li>Audio vault storage</li>
+                            <li>100 saves</li>
+                            <li>Priority generation</li>
+                        </ul>
+                        <button class="btn btn--primary btn--full-width">Current Plan</button>
+                    </div>
+                    <div class="pricing-card pricing-card--featured">
+                        <h4>Pro</h4>
+                        <div class="price">$29<span>/month</span></div>
+                        <div class="credits">1000 Credits</div>
+                        <ul class="features">
+                            <li>DistroKid integration</li>
+                            <li>Advanced prompts</li>
+                            <li>Unlimited saves</li>
+                            <li>API access</li>
+                        </ul>
+                        <button class="btn btn--primary btn--full-width">Upgrade Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

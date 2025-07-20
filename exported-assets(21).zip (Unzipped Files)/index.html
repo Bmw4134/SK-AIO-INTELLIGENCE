@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Singularity Kernel - Multi-AI Integration Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="header-title">Singularity Kernel</h1>
+                <p class="header-subtitle">Multi-AI Integration Platform for Recursive Music & Video Generation</p>
+                <div class="header-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="activeApis">7</span>
+                        <span class="stat-label">Active APIs</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="totalCost">$2,847</span>
+                        <span class="stat-label">Est. Monthly</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="uptime">99.2%</span>
+                        <span class="stat-label">System Uptime</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-section="overview">System Overview</button>
+            <button class="nav-tab" data-section="matrix">API Matrix</button>
+            <button class="nav-tab" data-section="pipeline">Generation Pipeline</button>
+            <button class="nav-tab" data-section="orchestration">Orchestration Hub</button>
+            <button class="nav-tab" data-section="architecture">Architecture</button>
+            <button class="nav-tab" data-section="deployment">Deployment</button>
+            <button class="nav-tab" data-section="generator">Code Generator</button>
+        </nav>
+
+        <!-- Content Sections -->
+        <main class="main-content">
+            <!-- System Overview Dashboard -->
+            <section id="overview" class="section active">
+                <h2>System Overview Dashboard</h2>
+                <div class="dashboard-grid">
+                    <div class="api-status-grid">
+                        <div class="api-card" data-status="limited">
+                            <div class="api-header">
+                                <h3>Suno v4.5+</h3>
+                                <span class="status-indicator status-limited">Limited</span>
+                            </div>
+                            <p>Music Generation Engine</p>
+                            <div class="api-metrics">
+                                <span>$0.02-0.04/track</span>
+                                <span>8-12min longform</span>
+                            </div>
+                        </div>
+                        
+                        <div class="api-card" data-status="unavailable">
+                            <div class="api-header">
+                                <h3>OpenAI SORA</h3>
+                                <span class="status-indicator status-unavailable">Unavailable</span>
+                            </div>
+                            <p>Video Generation (Future)</p>
+                            <div class="api-metrics">
+                                <span>TBD</span>
+                                <span>No public API</span>
+                            </div>
+                        </div>
+
+                        <div class="api-card" data-status="limited">
+                            <div class="api-header">
+                                <h3>Google VEO 3</h3>
+                                <span class="status-indicator status-limited">Limited</span>
+                            </div>
+                            <p>Advanced Video Synthesis</p>
+                            <div class="api-metrics">
+                                <span>$0.75/second</span>
+                                <span>Request-based</span>
+                            </div>
+                        </div>
+
+                        <div class="api-card" data-status="available">
+                            <div class="api-header">
+                                <h3>Runway Gen-3</h3>
+                                <span class="status-indicator status-available">Available</span>
+                            </div>
+                            <p>Video Generation & Editing</p>
+                            <div class="api-metrics">
+                                <span>$0.05/second</span>
+                                <span>Limited release</span>
+                            </div>
+                        </div>
+
+                        <div class="api-card" data-status="available">
+                            <div class="api-header">
+                                <h3>GPT-4o</h3>
+                                <span class="status-indicator status-available">Available</span>
+                            </div>
+                            <p>Recursive Prompt Processing</p>
+                            <div class="api-metrics">
+                                <span>$6-18/M tokens</span>
+                                <span>128K context</span>
+                            </div>
+                        </div>
+
+                        <div class="api-card" data-status="available">
+                            <div class="api-header">
+                                <h3>Claude 3 Opus</h3>
+                                <span class="status-indicator status-available">Available</span>
+                            </div>
+                            <p>Ethics & Memory Logic</p>
+                            <div class="api-metrics">
+                                <span>$15-75/M tokens</span>
+                                <span>200K context</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Integration Matrix -->
+            <section id="matrix" class="section">
+                <h2>API Integration Matrix</h2>
+                <div class="matrix-container">
+                    <table class="api-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Access Level</th>
+                                <th>Pricing</th>
+                                <th>Complexity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="apiTableBody">
+                            <!-- Table rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Recursive Generation Pipeline -->
+            <section id="pipeline" class="section">
+                <h2>Recursive Generation Pipeline</h2>
+                <div class="pipeline-container">
+                    <div class="pipeline-flow">
+                        <div class="pipeline-stage">
+                            <h3>1. Prompt Input Validator</h3>
+                            <div class="validator-demo">
+                                <textarea class="form-control monospace" placeholder="Style: [Experimental Electronic, Dark Ambient]
+Lyrics: [Recursive dreams in silicon valleys...]
+FX: [Reverb cascade, Bass distortion, Shimmer bloom]
+Duration: [8-12 minutes]
+Mood: [Contemplative, Building tension]"></textarea>
+                                <button class="btn btn--primary btn--sm">Validate Structure</button>
+                            </div>
+                        </div>
+
+                        <div class="pipeline-arrow">→</div>
+
+                        <div class="pipeline-stage">
+                            <h3>2. Mutation Engine</h3>
+                            <div class="mutation-controls">
+                                <div class="form-group">
+                                    <label class="form-label">Memory Loop Detection</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="memoryLoop" checked>
+                                        <label for="memoryLoop"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Mutation Rate</label>
+                                    <input type="range" class="slider" min="0" max="100" value="35">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pipeline-arrow">→</div>
+
+                        <div class="pipeline-stage">
+                            <h3>3. Visual Sync Verifier</h3>
+                            <div class="sync-triggers">
+                                <div class="trigger-item">
+                                    <span>Bassline Melt</span>
+                                    <span class="trigger-status active">Active</span>
+                                </div>
+                                <div class="trigger-item">
+                                    <span>Floor Collapse</span>
+                                    <span class="trigger-status pending">Pending</span>
+                                </div>
+                                <div class="trigger-item">
+                                    <span>Shimmer Bloom</span>
+                                    <span class="trigger-status ready">Ready</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pipeline-arrow">→</div>
+
+                        <div class="pipeline-stage">
+                            <h3>4. Export Pipeline</h3>
+                            <div class="export-settings">
+                                <select class="form-control">
+                                    <option>8-12 min Audio + Video</option>
+                                    <option>Audio Only (WAV/MP3)</option>
+                                    <option>Video Only (MP4/MOV)</option>
+                                </select>
+                                <button class="btn btn--primary">Export with Snapshots</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Multi-Model Orchestration Hub -->
+            <section id="orchestration" class="section">
+                <h2>Multi-Model Orchestration Hub</h2>
+                <div class="orchestration-grid">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Model Routing & Load Balancing</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="routing-controls">
+                                <div class="form-group">
+                                    <label class="form-label">Primary Music Model</label>
+                                    <select class="form-control">
+                                        <option>Suno v4.5+</option>
+                                        <option>Udio Pro</option>
+                                        <option>MusicLM</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Fallback Strategy</label>
+                                    <select class="form-control">
+                                        <option>Round Robin</option>
+                                        <option>Least Load</option>
+                                        <option>Cost Optimized</option>
+                                    </select>
+                                </div>
+                                <div class="load-distribution">
+                                    <span>Current Load Distribution:</span>
+                                    <div class="load-bars">
+                                        <div class="load-bar" style="width: 65%">GPT-4o (65%)</div>
+                                        <div class="load-bar" style="width: 25%">Claude (25%)</div>
+                                        <div class="load-bar" style="width: 10%">Gemini (10%)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>API Key Vault</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="key-vault">
+                                <div class="vault-item">
+                                    <span>OpenAI</span>
+                                    <span class="key-status valid">Valid</span>
+                                    <button class="btn btn--sm btn--outline">Rotate</button>
+                                </div>
+                                <div class="vault-item">
+                                    <span>Anthropic</span>
+                                    <span class="key-status valid">Valid</span>
+                                    <button class="btn btn--sm btn--outline">Rotate</button>
+                                </div>
+                                <div class="vault-item">
+                                    <span>Google</span>
+                                    <span class="key-status warning">Expires Soon</span>
+                                    <button class="btn btn--sm btn--outline">Update</button>
+                                </div>
+                                <div class="vault-item">
+                                    <span>Runway</span>
+                                    <span class="key-status invalid">Invalid</span>
+                                    <button class="btn btn--sm btn--primary">Fix</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Cost Optimization</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="cost-controls">
+                                <div class="form-group">
+                                    <label class="form-label">Monthly Budget Limit</label>
+                                    <input type="number" class="form-control" value="5000" placeholder="USD">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Cost Optimization</label>
+                                    <select class="form-control">
+                                        <option>Performance First</option>
+                                        <option>Balanced</option>
+                                        <option>Cost First</option>
+                                    </select>
+                                </div>
+                                <div class="cost-breakdown">
+                                    <div class="cost-item">
+                                        <span>Current Month: $2,847</span>
+                                        <div class="cost-bar" style="width: 57%"></div>
+                                    </div>
+                                    <div class="cost-item">
+                                        <span>Projected: $4,200</span>
+                                        <div class="cost-bar projected" style="width: 84%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technical Architecture -->
+            <section id="architecture" class="section">
+                <h2>Technical Architecture</h2>
+                <div class="architecture-container">
+                    <div class="architecture-layer">
+                        <h3>Frontend Layer</h3>
+                        <div class="tech-stack">
+                            <div class="tech-item">
+                                <h4>React/Next.js</h4>
+                                <ul>
+                                    <li>Real-time WebSocket connections</li>
+                                    <li>Section-by-section editable prompts</li>
+                                    <li>Export-ready copy/paste</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="architecture-layer">
+                        <h3>Backend Layer</h3>
+                        <div class="tech-stack">
+                            <div class="tech-item">
+                                <h4>Python FastAPI</h4>
+                                <ul>
+                                    <li>Async processing</li>
+                                    <li>Rate limiting</li>
+                                    <li>API key management</li>
+                                    <li>Multi-service routing</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="architecture-layer">
+                        <h3>Database Layer</h3>
+                        <div class="tech-stack">
+                            <div class="tech-item">
+                                <h4>MongoDB + Redis</h4>
+                                <ul>
+                                    <li>Session persistence</li>
+                                    <li>User preference storage</li>
+                                    <li>Generation history</li>
+                                    <li>Cache layer optimization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="architecture-layer">
+                        <h3>Infrastructure Layer</h3>
+                        <div class="tech-stack">
+                            <div class="tech-item">
+                                <h4>AWS GPU Stack</h4>
+                                <div class="gpu-instances">
+                                    <div class="gpu-card">
+                                        <span>P4 (A100)</span>
+                                        <span class="gpu-status online">Online</span>
+                                    </div>
+                                    <div class="gpu-card">
+                                        <span>P5 (H100)</span>
+                                        <span class="gpu-status offline">Offline</span>
+                                    </div>
+                                    <div class="gpu-card">
+                                        <span>G4 (T4)</span>
+                                        <span class="gpu-status online">Online</span>
+                                    </div>
+                                    <div class="gpu-card">
+                                        <span>G5 (A10G)</span>
+                                        <span class="gpu-status online">Online</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Deployment Options -->
+            <section id="deployment" class="section">
+                <h2>Deployment Options</h2>
+                <div class="deployment-grid">
+                    <div class="deployment-card">
+                        <div class="deployment-header">
+                            <h3>Local Development</h3>
+                            <span class="cost-badge low">$0-100/month</span>
+                        </div>
+                        <p>Docker compose setup for local testing</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>No cloud costs</li>
+                                    <li>Full control</li>
+                                    <li>Fast iteration</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons</h4>
+                                <ul>
+                                    <li>Limited GPU access</li>
+                                    <li>No auto-scaling</li>
+                                    <li>Manual management</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn--outline btn--full-width">Select Local</button>
+                    </div>
+
+                    <div class="deployment-card recommended">
+                        <div class="deployment-header">
+                            <h3>AWS Cloud</h3>
+                            <span class="cost-badge high">$1000-10000/month</span>
+                            <span class="recommended-badge">Recommended</span>
+                        </div>
+                        <p>Full AWS deployment with GPU instances</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>Auto-scaling</li>
+                                    <li>High performance</li>
+                                    <li>Enterprise ready</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons</h4>
+                                <ul>
+                                    <li>High costs</li>
+                                    <li>Complex setup</li>
+                                    <li>Vendor lock-in</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn--primary btn--full-width">Deploy to AWS</button>
+                    </div>
+
+                    <div class="deployment-card">
+                        <div class="deployment-header">
+                            <h3>Hybrid Setup</h3>
+                            <span class="cost-badge medium">$500-3000/month</span>
+                        </div>
+                        <p>Core services in cloud, heavy processing local</p>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros</h4>
+                                <ul>
+                                    <li>Cost balance</li>
+                                    <li>Flexibility</li>
+                                    <li>Reduced latency</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons</h4>
+                                <ul>
+                                    <li>Complex architecture</li>
+                                    <li>Network dependencies</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn--outline btn--full-width">Configure Hybrid</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Code Generator -->
+            <section id="generator" class="section">
+                <h2>Code Generator</h2>
+                <div class="generator-container">
+                    <div class="generator-controls">
+                        <div class="form-group">
+                            <label class="form-label">Deployment Target</label>
+                            <select class="form-control" id="deploymentTarget">
+                                <option value="docker">Docker Compose</option>
+                                <option value="k8s">Kubernetes</option>
+                                <option value="env">Environment Variables</option>
+                                <option value="fastapi">FastAPI Backend</option>
+                            </select>
+                        </div>
+                        <button class="btn btn--primary" onclick="generateCode()">Generate Code</button>
+                    </div>
+                    
+                    <div class="code-output">
+                        <div class="code-header">
+                            <span id="codeTitle">docker-compose.yml</span>
+                            <button class="btn btn--sm btn--outline" onclick="copyCode()">Copy to Clipboard</button>
+                        </div>
+                        <pre class="code-block" id="generatedCode"># Select a deployment target above to generate code</pre>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

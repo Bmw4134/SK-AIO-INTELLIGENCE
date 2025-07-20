@@ -1,0 +1,31 @@
+{
+  "name": "Infinity Singularity",
+  "description": "Self-evolving orchestrator with LangGraph, plugin export, and edge-compatible mutation logic",
+  "core_modules": [
+    "prompt_dna.json",
+    "mutation_lineage.json",
+    "goal_tracker.json",
+    "session_audit.json",
+    "diff_watcher.py",
+    "llm_test.py",
+    "StateCoherenceAdapter.ts",
+    "schema_router.ts",
+    "plugin_server.py",
+    "openapi.yaml",
+    "wasm_registry.json"
+  ],
+  "trigger_phrases": [
+    "build real functionality",
+    "start builder",
+    "instantiate agent",
+    "deploy a schema flow"
+  ],
+  "export_modes": [
+    ".singularity-bundle.zip",
+    "OpenAPI plugin",
+    "WASM module",
+    "Electron app"
+  ],
+  "version": "v3.0",
+  "last_updated": "2025-07-20"
+}

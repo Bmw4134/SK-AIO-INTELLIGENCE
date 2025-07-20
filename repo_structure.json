@@ -1,0 +1,43 @@
+{
+  "repo_name": "singularity-kernel",
+  "structure": {
+    "agents": [
+      "file_structure_agent.py",
+      "prompt_dna.json",
+      "fingerprint.json",
+      "mutation_lineage.json"
+    ],
+    "orchestration": [
+      "schema_router.ts",
+      "StateCoherenceAdapter.ts",
+      "langgraph_dags/"
+    ],
+    "memory": [
+      "goal_tracker.json",
+      "session_audit.json",
+      "diff_watcher.py"
+    ],
+    "plugins": [
+      "plugin_server.py",
+      "run_plugin.sh",
+      "ai-plugin.json",
+      "openapi.yaml"
+    ],
+    "wasm": [
+      "wasm_registry.json"
+    ],
+    "docs": [
+      "Recursive DNA Synthesis.md",
+      "Monetization & Architecture.md",
+      "Technical Feasibility.md",
+      "evolution_roadmap.md",
+      "dev_compass.md"
+    ],
+    "apps": [
+      "exported-assets/",
+      "infinity-singularity-labs/",
+      "vercel_agentic_showcase/",
+      "singularity-kernel-demo/"
+    ]
+  }
+}

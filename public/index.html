@@ -1,0 +1,1137 @@
+<html lang="en" class="scroll-smooth" >
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Production AI Orchestration UI with Quantum Vector Matrix</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.4/d3.min.js"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    html,
+    body {
+      font-family: 'Inter', 'IBM Plex Sans', sans-serif;
+      background-color: #1f1f1f;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    /* Scrollbar for large panels */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #2a2a2a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #555;
+      border-radius: 4px;
+    }
+    /* Glowing outlines for active agents */
+    .glow-green {
+      box-shadow: 0 0 8px 2px #22c55eaa;
+    }
+    .glow-yellow {
+      box-shadow: 0 0 8px 2px #eab308aa;
+    }
+    .glow-red {
+      box-shadow: 0 0 8px 2px #ef4444aa;
+    }
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+      cursor: help;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    .tooltiptext {
+      visibility: hidden;
+      width: max-content;
+      max-width: 220px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 4px;
+      padding: 6px 8px;
+      position: absolute;
+      z-index: 100;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.75rem;
+      line-height: 1.1;
+      user-select: none;
+      pointer-events: none;
+    }
+    /* Panel clickable hover */
+    .panel-clickable {
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .panel-clickable:hover {
+      background-color: #2e2e2e;
+    }
+    /* Screen transitions */
+    .screen {
+      position: absolute;
+      inset: 0;
+      background-color: #1f1f1f;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(100%);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      will-change: transform, opacity;
+    }
+    .screen.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+      z-index: 20;
+    }
+    .screen.exit-left {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-100%);
+      z-index: 10;
+    }
+    /* Breadcrumb */
+    #breadcrumb {
+      font-size: 0.875rem;
+      color: #a1a1aa;
+      padding: 0.5rem 1rem;
+      background-color: #2a2a2a;
+      user-select: none;
+      border-bottom: 1px solid #444;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-left: 56px;
+    }
+    #breadcrumb span {
+      cursor: default;
+    }
+    #breadcrumb span.breadcrumb-item {
+      cursor: pointer;
+      color: #818cf8;
+      user-select: text;
+    }
+    #breadcrumb span.breadcrumb-item:hover {
+      text-decoration: underline;
+    }
+    /* Bottom console */
+    #bottom-console {
+      position: fixed;
+      bottom: 12px;
+      right: 12px;
+      width: 360px;
+      max-height: 220px;
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 6px;
+      color: #ccc;
+      font-family: monospace;
+      font-size: 0.75rem;
+      overflow-y: auto;
+      transition: max-height 0.3s ease;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 12px #6366f1aa;
+    }
+    #bottom-console.collapsed {
+      max-height: 30px;
+      overflow: hidden;
+    }
+    #bottom-console-header {
+      flex-shrink: 0;
+      padding: 6px 12px;
+      background-color: #1f1f1f;
+      border-bottom: 1px solid #444;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+      color: #818cf8;
+      border-radius: 6px 6px 0 0;
+    }
+    #bottom-console-content {
+      flex: 1;
+      padding: 8px 12px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    /* Scrollbar for bottom console */
+    #bottom-console-content::-webkit-scrollbar {
+      width: 6px;
+    }
+    #bottom-console-content::-webkit-scrollbar-track {
+      background: #2a2a2a;
+    }
+    #bottom-console-content::-webkit-scrollbar-thumb {
+      background-color: #555;
+      border-radius: 3px;
+    }
+    /* Buttons */
+    button.flat-btn {
+      background: transparent;
+      border: none;
+      color: #818cf8;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 3px;
+      transition: background-color 0.2s ease;
+    }
+    button.flat-btn:hover,
+    button.flat-btn:focus {
+      background-color: #3b82f6;
+      color: white;
+      outline: none;
+    }
+    /* Inputs */
+    select,
+    input[type="search"] {
+      background-color: #1f1f1f;
+      border: 1px solid #444;
+      color: #ccc;
+      padding: 0.25rem 0.5rem;
+      border-radius: 3px;
+      font-family: 'Inter', 'IBM Plex Sans', sans-serif;
+      font-size: 0.875rem;
+      transition: border-color 0.2s ease;
+    }
+    select:focus,
+    input[type="search"]:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 5px #6366f1aa;
+    }
+    /* Left sidebar */
+    #left-sidebar {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      bottom: 0;
+      width: 56px;
+      background-color: #2a2a2a;
+      border-right: 1px solid #444;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 12px;
+      z-index: 50;
+    }
+    #left-sidebar button {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 12px;
+      color: #818cf8;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease;
+      position: relative;
+    }
+    #left-sidebar button:hover,
+    #left-sidebar button:focus {
+      background-color: #3b3b3b;
+      outline: none;
+    }
+    #left-sidebar button.active {
+      background-color: #6366f1;
+      color: white;
+    }
+    #left-sidebar .tooltiptext {
+      bottom: auto;
+      top: 50%;
+      left: 110%;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    /* Floating Live System badge */
+    #live-system-badge {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 24px;
+      padding: 6px 12px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #818cf8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+      z-index: 70;
+      box-shadow: 0 0 8px 2px #6366f1aa;
+    }
+    #live-status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #22c55e;
+      box-shadow: 0 0 6px #22c55eaa;
+    }
+    #live-status-dot.orange {
+      background-color: #fbbf24;
+      box-shadow: 0 0 6px #fbbf24aa;
+    }
+    #live-status-dot.red {
+      background-color: #ef4444;
+      box-shadow: 0 0 6px #ef4444aa;
+    }
+    /* Component overlays */
+    .component-overlay {
+      position: absolute;
+      border: 1px dashed #6366f1;
+      color: #818cf8;
+      font-size: 0.75rem;
+      font-family: monospace;
+      padding: 2px 6px;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1000;
+      background-color: rgba(30,30,30,0.7);
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+    /* Timeline horizontal scroll */
+    #timeline-event-list {
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: #555 #2a2a2a;
+      user-select: none;
+    }
+    #timeline-event-list::-webkit-scrollbar {
+      height: 8px;
+    }
+    #timeline-event-list::-webkit-scrollbar-track {
+      background: #2a2a2a;
+    }
+    #timeline-event-list::-webkit-scrollbar-thumb {
+      background-color: #555;
+      border-radius: 4px;
+    }
+    #timeline-event-list li {
+      flex: 0 0 auto;
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      min-width: 180px;
+      white-space: normal;
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: #ccc;
+      transition: background-color 0.2s ease;
+    }
+    #timeline-event-list li:hover,
+    #timeline-event-list li:focus {
+      background-color: #3b3b3b;
+      outline: none;
+      color: #818cf8;
+    }
+    /* Context menu */
+    #context-menu {
+      position: fixed;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 4px;
+      box-shadow: 0 0 10px #6366f1aa;
+      color: #e0e0e0;
+      font-size: 0.875rem;
+      z-index: 1100;
+      display: none;
+      min-width: 180px;
+    }
+    #context-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 4px 0;
+    }
+    #context-menu li {
+      padding: 8px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #context-menu li:hover {
+      background-color: #6366f1;
+      color: white;
+    }
+    /* Quantum Vector Matrix */
+    #quantum-vector-matrix {
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 12px;
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: #ccc;
+      overflow: auto;
+      max-height: 200px;
+      user-select: text;
+      position: relative;
+    }
+    #quantum-vector-matrix .component-overlay {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background-color: rgba(30,30,30,0.85);
+      border: 1px dashed #6366f1;
+      padding: 2px 6px;
+      font-size: 0.75rem;
+      pointer-events: none;
+      user-select: none;
+      border-radius: 3px;
+      z-index: 1000;
+    }
+    table.quantum-matrix {
+      border-collapse: collapse;
+      width: 100%;
+      table-layout: fixed;
+    }
+    table.quantum-matrix th,
+    table.quantum-matrix td {
+      border: 1px solid #444;
+      padding: 4px 6px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      color: #ccc;
+      font-size: 0.75rem;
+      user-select: text;
+    }
+    table.quantum-matrix th {
+      background-color: #1f1f1f;
+      font-weight: 600;
+      color: #818cf8;
+    }
+  </style>
+</head>
+<body class="relative flex flex-col h-screen select-none">
+  <!-- Left Sidebar -->
+  <nav id="left-sidebar" aria-label="Sidebar navigation">
+    <button class="tooltip panel-clickable active" data-screen="dashboard" aria-label="Dashboard" tabindex="0" data-zustand="useUIStore().activePanel = 'dashboard'">
+      <i class="fas fa-tachometer-alt fa-lg"></i>
+      <span class="tooltiptext">onClick → setPanel('dashboard')</span>
+    </button>
+    <button class="tooltip panel-clickable" data-screen="agents" aria-label="Agents" tabindex="0" data-zustand="useUIStore().activePanel = 'agents'">
+      <i class="fas fa-users-cog fa-lg"></i>
+      <span class="tooltiptext">onClick → setPanel('agents')</span>
+    </button>
+    <button class="tooltip panel-clickable" data-screen="graph" aria-label="Graph Editor" tabindex="0" data-zustand="useUIStore().activePanel = 'graph'">
+      <i class="fas fa-project-diagram fa-lg"></i>
+      <span class="tooltiptext">onClick → setPanel('graph')</span>
+    </button>
+    <button class="tooltip panel-clickable" data-screen="logs" aria-label="Logs" tabindex="0" data-zustand="useUIStore().activePanel = 'logs'">
+      <i class="fas fa-file-alt fa-lg"></i>
+      <span class="tooltiptext">onClick → setPanel('logs')</span>
+    </button>
+    <button class="tooltip panel-clickable" data-screen="security" aria-label="Security" tabindex="0" data-zustand="useUIStore().activePanel = 'security'">
+      <i class="fas fa-user-shield fa-lg"></i>
+      <span class="tooltiptext">onClick → setPanel('security')</span>
+    </button>
+  </nav>
+
+  <!-- Top Navigation -->
+  <header
+    class="flex items-center justify-between px-6 py-4 border-b border-gray-700 bg-[#2a2a2a] ml-14"
+  >
+    <h1 class="text-xl font-semibold tracking-wide text-gray-100 select-none">
+      AI System Orchestration
+    </h1>
+    <nav
+      class="flex space-x-4 text-gray-400 text-sm font-medium"
+      aria-label="Primary Navigation"
+    >
+      <button
+        class="flex items-center space-x-2 px-3 py-1 rounded panel-clickable active"
+        type="button"
+        data-screen="dashboard"
+        aria-current="page"
+        aria-label="Dashboard"
+        data-zustand="onClick → setPanel('dashboard')"
+      >
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </button>
+      <button
+        class="flex items-center space-x-2 px-3 py-1 rounded panel-clickable"
+        type="button"
+        data-screen="agents"
+        aria-label="Agents"
+        data-zustand="onClick → setPanel('agents')"
+      >
+        <i class="fas fa-users-cog"></i>
+        <span>Agents</span>
+      </button>
+      <button
+        class="flex items-center space-x-2 px-3 py-1 rounded panel-clickable"
+        type="button"
+        data-screen="graph"
+        aria-label="Graph Editor"
+        data-zustand="onClick → setPanel('graph')"
+      >
+        <i class="fas fa-project-diagram"></i>
+        <span>Graph</span>
+      </button>
+      <button
+        class="flex items-center space-x-2 px-3 py-1 rounded panel-clickable"
+        type="button"
+        data-screen="logs"
+        aria-label="Logs"
+        data-zustand="onClick → setPanel('logs')"
+      >
+        <i class="fas fa-file-alt"></i>
+        <span>Logs</span>
+      </button>
+      <button
+        class="flex items-center space-x-2 px-3 py-1 rounded panel-clickable"
+        type="button"
+        data-screen="security"
+        aria-label="Security"
+        data-zustand="onClick → setPanel('security')"
+      >
+        <i class="fas fa-user-shield"></i>
+        <span>Security</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div id="breadcrumb" aria-label="Breadcrumb navigation" role="navigation" class="px-6 py-2 select-none ml-14">
+    <span class="breadcrumb-item" tabindex="0" role="link" data-screen="dashboard">Dashboard</span>
+  </div>
+
+  <!-- Screens Container -->
+  <main id="screens-container" class="relative flex-1 overflow-hidden ml-14">
+    <!-- Dashboard Screen -->
+    <section id="screen-dashboard" class="screen active" role="main" aria-label="Dashboard Screen">
+      <div class="p-6 flex flex-col h-full relative">
+        <h2 class="text-2xl font-semibold mb-4 select-none">Dashboard Overview</h2>
+        <div class="flex flex-wrap gap-6 overflow-auto flex-1 relative">
+          <div class="bg-[#2a2a2a] rounded-md shadow-inner p-6 w-full md:w-1/3 cursor-pointer panel-clickable relative" data-screen="agents" tabindex="0" role="button" aria-label="Open Agents Panel" data-zustand="onSelect(agent) → openDrawer(agent.id)">
+            <h3 class="text-lg font-semibold mb-2">Agents</h3>
+            <p class="text-gray-400 text-sm">Live agent cards with telemetry and controls.</p>
+            <div class="component-overlay" style="top: 8px; right: 8px;">&lt;AgentGrid&gt;</div>
+          </div>
+          <div class="bg-[#2a2a2a] rounded-md shadow-inner p-6 w-full md:w-1/3 cursor-pointer panel-clickable relative" data-screen="graph" tabindex="0" role="button" aria-label="Open Graph Editor Panel" data-zustand="onDrag(node) → updateNodePosition(node.id)">
+            <h3 class="text-lg font-semibold mb-2">Graph Editor</h3>
+            <p class="text-gray-400 text-sm">Drag-to-connect agents, cluster by type, node actions.</p>
+            <div class="component-overlay" style="top: 8px; right: 8px;">&lt;GraphCanvas&gt;</div>
+          </div>
+          <div class="bg-[#2a2a2a] rounded-md shadow-inner p-6 w-full md:w-1/3 cursor-pointer panel-clickable relative" data-screen="timeline" tabindex="0" role="button" aria-label="Open Event Timeline Panel" data-zustand="onFilter(eventLevel) → refetchTimeline()">
+            <h3 class="text-lg font-semibold mb-2">Event Timeline</h3>
+            <p class="text-gray-400 text-sm">Filterable timeline with audit trace integration.</p>
+            <div class="component-overlay" style="top: 8px; right: 8px;">&lt;EventTimeline&gt;</div>
+          </div>
+        </div>
+        <!-- Quantum Vector Matrix -->
+        <section id="quantum-vector-matrix" class="mt-6 relative" aria-label="Agent Quantum Vector Matrix">
+          <div class="component-overlay">&lt;AgentQuantumVectorMatrix&gt;</div>
+          <table class="quantum-matrix" aria-describedby="quantum-matrix-desc" role="grid" tabindex="0">
+            <caption id="quantum-matrix-desc" class="sr-only">Agent Quantum Vector Matrix showing 8x8 vector values</caption>
+            <thead>
+              <tr>
+                <th scope="col">Agent</th>
+                <th scope="col">Q1</th>
+                <th scope="col">Q2</th>
+                <th scope="col">Q3</th>
+                <th scope="col">Q4</th>
+                <th scope="col">Q5</th>
+                <th scope="col">Q6</th>
+                <th scope="col">Q7</th>
+                <th scope="col">Q8</th>
+              </tr>
+            </thead>
+            <tbody id="quantum-matrix-body">
+              <!-- Rows injected by JS -->
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </section>
+
+    <!-- Agents Screen -->
+    <section id="screen-agents" class="screen" role="main" aria-label="Agents Screen">
+      <div class="p-6 flex flex-col h-full relative">
+        <h2 class="text-2xl font-semibold mb-4 select-none">Agents</h2>
+        <button class="flat-btn w-max mb-4" id="agents-back-btn" type="button" aria-label="Back to Dashboard" data-zustand="onClick → setPanel('dashboard')">
+          <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+        </button>
+        <div id="agent-cards-container" class="flex flex-wrap gap-4 overflow-auto flex-1 relative">
+          <div class="component-overlay" style="top: 8px; left: 8px;">&lt;AgentGrid&gt;</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Logs Screen -->
+    <section id="screen-logs" class="screen" role="main" aria-label="Logs Screen">
+      <div class="p-6 flex flex-col h-full relative">
+        <h2 class="text-2xl font-semibold mb-4 select-none">Logs</h2>
+        <button class="flat-btn w-max mb-4" id="logs-back-btn" type="button" aria-label="Back to Dashboard" data-zustand="onClick → setPanel('dashboard')">
+          <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+        </button>
+        <pre id="logs-content" class="flex-1 overflow-auto bg-[#1f1f1f] rounded border border-gray-700 p-4 font-mono text-xs text-gray-300 relative" tabindex="0" aria-live="polite" aria-atomic="true">
+          <div class="component-overlay" style="top: 8px; left: 8px;">&lt;AuditDrawer&gt;</div>
+        </pre>
+      </div>
+    </section>
+
+    <!-- Graph Editor Screen -->
+    <section id="screen-graph" class="screen" role="main" aria-label="Graph Editor Screen">
+      <div class="p-6 flex flex-col h-full relative">
+        <h2 class="text-2xl font-semibold mb-4 select-none">Graph Editor</h2>
+        <button class="flat-btn w-max mb-4" id="graph-back-btn" type="button" aria-label="Back to Dashboard" data-zustand="onClick → setPanel('dashboard')">
+          <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+        </button>
+        <div id="graph-editor-container" class="graph-container relative" tabindex="0" aria-label="Graph editor canvas">
+          <div class="component-overlay" style="top: 8px; left: 8px;">&lt;GraphCanvas&gt;</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline Screen -->
+    <section id="screen-timeline" class="screen" role="main" aria-label="Timeline Screen">
+      <div class="p-6 flex flex-col h-full relative">
+        <h2 class="text-2xl font-semibold mb-4 select-none">Timeline</h2>
+        <button class="flat-btn w-max mb-4" id="timeline-back-btn" type="button" aria-label="Back to Dashboard" data-zustand="onClick → setPanel('dashboard')">
+          <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+        </button>
+        <div class="flex flex-col flex-1 overflow-hidden relative">
+          <div class="flex flex-wrap gap-4 mb-4">
+            <select id="timeline-severity-filter" multiple aria-label="Filter timeline events by severity" class="bg-[#1f1f1f] border border-gray-700 rounded text-xs text-gray-300 p-1 w-48 h-24 focus:outline-none focus:ring-2 focus:ring-indigo-500" data-zustand="onFilter(eventLevel) → refetchTimeline()"></select>
+          </div>
+          <ul id="timeline-event-list" class="flex overflow-x-auto space-x-4 text-xs font-mono text-gray-400 relative" aria-live="polite" aria-relevant="additions" tabindex="0" role="list">
+            <div class="component-overlay" style="top: 8px; right: 8px;">&lt;EventTimeline&gt;</div>
+          </ul>
+          <input type="range" id="timeline-scrubber" min="0" max="300" value="0" step="1" aria-label="Timeline scrubber" class="w-full mt-2 cursor-pointer" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Security Screen -->
+    <section id="screen-security" class="screen" role="main" aria-label="Security Screen">
+      <div class="p-6 flex flex-col h-full relative">
+        <h2 class="text-2xl font-semibold mb-4 select-none">Security</h2>
+        <button class="flat-btn w-max mb-4" id="security-back-btn" type="button" aria-label="Back to Dashboard" data-zustand="onClick → setPanel('dashboard')">
+          <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+        </button>
+        <div id="security-content" class="flex-1 overflow-auto bg-[#1f1f1f] rounded border border-gray-700 p-4 font-mono text-xs text-gray-300 relative" tabindex="0" aria-live="polite" aria-atomic="true">
+          <p>No security alerts.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Side drawer for node/event details -->
+  <aside id="side-drawer" aria-label="Audit Drawer" role="region" aria-hidden="true">
+    <div id="side-drawer-header" class="flex justify-between items-center p-4 border-b border-gray-700 text-indigo-400 font-semibold text-lg select-none">
+      <span id="side-drawer-title">&lt;AuditDrawer&gt;</span>
+      <button id="side-drawer-close-btn" aria-label="Close audit drawer" class="text-indigo-400 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">&times;</button>
+    </div>
+    <div id="side-drawer-content" class="p-4 overflow-auto font-mono text-xs text-gray-300" tabindex="0" aria-live="polite" aria-atomic="true">
+      <!-- Audit details injected here -->
+    </div>
+  </aside>
+
+  <!-- Bottom Console -->
+  <section id="bottom-console" class="collapsed" aria-live="polite" aria-atomic="true" aria-label="API activity feed">
+    <div id="bottom-console-header" tabindex="0" role="button" aria-expanded="false" aria-controls="bottom-console-content" class="flex justify-between items-center p-2 bg-[#1f1f1f] border border-gray-700 cursor-pointer select-none text-indigo-400 font-semibold rounded">
+      <span>&lt;AuditConsole&gt; API Activity Feed</span>
+      <button id="bottom-console-toggle-btn" aria-label="Toggle API activity feed" class="flat-btn" type="button">
+        <i class="fas fa-chevron-up"></i>
+      </button>
+    </div>
+    <pre id="bottom-console-content" class="hidden p-4 overflow-auto font-mono text-xs text-gray-300 max-h-48"></pre>
+  </section>
+
+  <!-- Floating Live System Badge -->
+  <div id="live-system-badge" aria-live="polite" aria-atomic="true" role="status" title="Live System Status">
+    <div id="live-status-dot" class="glow-green"></div>
+    <span>Live System</span>
+  </div>
+
+  <!-- Context Menu for Graph Nodes -->
+  <div id="context-menu" role="menu" aria-hidden="true" tabindex="-1" class="bg-[#2a2a2a] border border-gray-700 rounded shadow-lg text-sm text-gray-300 fixed z-[1100] hidden">
+    <ul class="list-none m-0 p-1">
+      <li tabindex="0" role="menuitem" class="px-4 py-2 hover:bg-indigo-600 hover:text-white cursor-pointer flex items-center gap-2" data-action="edit">
+        <i class="fas fa-edit"></i> Edit Node
+      </li>
+      <li tabindex="0" role="menuitem" class="px-4 py-2 hover:bg-indigo-600 hover:text-white cursor-pointer flex items-center gap-2" data-action="link">
+        <i class="fas fa-link"></i> Link Node
+      </li>
+      <li tabindex="0" role="menuitem" class="px-4 py-2 hover:bg-indigo-600 hover:text-white cursor-pointer flex items-center gap-2" data-action="remove">
+        <i class="fas fa-trash-alt"></i> Remove Node
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (() => {
+      // Utility functions
+      function formatTime(seconds) {
+        const h = Math.floor(seconds / 3600)
+          .toString()
+          .padStart(2, '0');
+        const m = Math.floor((seconds % 3600) / 60)
+          .toString()
+          .padStart(2, '0');
+        const s = Math.floor(seconds % 60)
+          .toString()
+          .padStart(2, '0');
+        return `${h}:${m}:${s}`;
+      }
+
+      // Dummy data for agents
+      const dummyAgents = [];
+      const agentTypes = ['LLM', 'Router', 'Critic', 'Memory'];
+      const statuses = ['online', 'degraded', 'offline'];
+      for (let i = 1; i <= 30; i++) {
+        const type = agentTypes[i % agentTypes.length];
+        const status = statuses[i % statuses.length];
+        dummyAgents.push({
+          id: `agent-${i}`,
+          name: `Agent ${i}`,
+          status,
+          lastHeartbeat: Math.floor(Math.random() * 60),
+          degradationReason: status === 'degraded' ? 'Simulated degradation' : '',
+          type,
+          uptime: Math.floor(Math.random() * 86400),
+          load: +(Math.random() * 100).toFixed(1),
+          group: type,
+          cpu: +(Math.random() * 100).toFixed(1),
+          memory: +(Math.random() * 100).toFixed(1),
+          latency: +(Math.random() * 200).toFixed(1),
+        });
+      }
+
+      // Dummy timeline events
+      const dummyTimelineEvents = [];
+      const eventTypes = ['critical', 'warning', 'info'];
+      const severities = ['high', 'medium', 'low'];
+      for (let i = 0; i < 100; i++) {
+        const agent = dummyAgents[Math.floor(Math.random() * dummyAgents.length)];
+        dummyTimelineEvents.push({
+          id: i + 1,
+          timestamp: Math.floor(Math.random() * 300),
+          agentId: agent.id,
+          message: `Event ${i + 1} for ${agent.name}`,
+          tag: eventTypes[i % eventTypes.length],
+          severity: severities[i % severities.length],
+          auditLogLink: `#audit-log-${i + 1}`,
+        });
+      }
+
+      // Bottom console messages (simulate Express/Prisma API events)
+      const bottomConsoleMessages = [
+        '[POST] /agent/restart → 200 OK',
+        '[GET] /api/agents → 200 OK',
+        '[PATCH] /api/agent/agent-12 → 204 No Content',
+        '[GET] /api/logs → 200 OK',
+        '[POST] /task/submit → 201 Created',
+        '[GET] /api/status → 200 OK',
+      ];
+
+      // Screen management
+      const screens = document.querySelectorAll('.screen');
+      const breadcrumb = document.getElementById('breadcrumb');
+      const sidebarButtons = document.querySelectorAll('#left-sidebar button');
+      const topNavButtons = document.querySelectorAll('header nav button');
+      let currentScreen = 'dashboard';
+
+      function setActiveScreen(screenId) {
+        if (screenId === currentScreen) return;
+        const prevScreenEl = document.getElementById(`screen-${currentScreen}`);
+        const nextScreenEl = document.getElementById(`screen-${screenId}`);
+
+        if (!nextScreenEl) return;
+
+        prevScreenEl.classList.remove('active');
+        prevScreenEl.classList.add('exit-left');
+
+        nextScreenEl.classList.add('active');
+        nextScreenEl.classList.remove('exit-left');
+
+        currentScreen = screenId;
+        updateBreadcrumb(screenId);
+        highlightNav(screenId);
+      }
+
+      function updateBreadcrumb(screenId) {
+        breadcrumb.innerHTML = '';
+        const homeCrumb = document.createElement('span');
+        homeCrumb.textContent = 'Dashboard';
+        homeCrumb.className = 'breadcrumb-item';
+        homeCrumb.tabIndex = 0;
+        homeCrumb.setAttribute('role', 'link');
+        homeCrumb.dataset.screen = 'dashboard';
+        breadcrumb.appendChild(homeCrumb);
+
+        if (screenId !== 'dashboard') {
+          const sep = document.createElement('span');
+          sep.textContent = '›';
+          breadcrumb.appendChild(sep);
+
+          const currentCrumb = document.createElement('span');
+          currentCrumb.textContent = screenId
+            .split('-')
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(' ');
+          currentCrumb.className = 'breadcrumb-item';
+          currentCrumb.tabIndex = 0;
+          currentCrumb.setAttribute('role', 'link');
+          currentCrumb.dataset.screen = screenId;
+          breadcrumb.appendChild(currentCrumb);
+        }
+      }
+
+      function highlightNav(screenId) {
+        sidebarButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.screen === screenId));
+        topNavButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.screen === screenId));
+      }
+
+      // Navigation buttons and sidebar click
+      [...sidebarButtons, ...topNavButtons].forEach((el) => {
+        el.addEventListener('click', () => {
+          setActiveScreen(el.dataset.screen);
+        });
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setActiveScreen(el.dataset.screen);
+          }
+        });
+      });
+
+      // Breadcrumb click navigation
+      breadcrumb.addEventListener('click', (e) => {
+        if (e.target.classList.contains('breadcrumb-item')) {
+          setActiveScreen(e.target.dataset.screen);
+        }
+      });
+      breadcrumb.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('breadcrumb-item')) {
+          e.preventDefault();
+          setActiveScreen(e.target.dataset.screen);
+        }
+      });
+
+      // Back buttons
+      ['agents-back-btn', 'graph-back-btn', 'timeline-back-btn', 'logs-back-btn', 'security-back-btn'].forEach((id) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.addEventListener('click', () => setActiveScreen('dashboard'));
+        }
+      });
+
+      // Agent Screen: render agent cards with telemetry and click to open detail drawer
+      const agentCardsContainer = document.getElementById('agent-cards-container');
+      const sideDrawer = document.getElementById('side-drawer');
+      const sideDrawerContent = document.getElementById('side-drawer-content');
+      const sideDrawerTitle = document.getElementById('side-drawer-title');
+      const sideDrawerCloseBtn = document.getElementById('side-drawer-close-btn');
+
+      function createStatusDot(status) {
+        const dot = document.createElement('span');
+        dot.classList.add('inline-block', 'w-3', 'h-3', 'rounded-full', 'mr-2');
+        switch (status) {
+          case 'online':
+            dot.classList.add('bg-green-500', 'glow-green');
+            dot.title = 'Online';
+            break;
+          case 'degraded':
+            dot.classList.add('bg-yellow-500', 'glow-yellow');
+            dot.title = 'Degraded';
+            break;
+          case 'offline':
+            dot.classList.add('bg-red-600', 'glow-red');
+            dot.title = 'Offline';
+            break;
+          default:
+            dot.classList.add('bg-gray-500');
+            dot.title = 'Unknown';
+        }
+        return dot;
+      }
+      function formatUptime(seconds) {
+        const d = Math.floor(seconds / 86400);
+        const h = Math.floor((seconds % 86400) / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        return `${d}d ${h}h ${m}m`;
+      }
+      function createAgentCard(agent) {
+        const card = document.createElement('div');
+        card.className = 'bg-[#2a2a2a] rounded-md shadow-inner p-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 cursor-pointer panel-clickable flex flex-col';
+        card.tabIndex = 0;
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `Agent card for ${agent.name}`);
+
+        const header = document.createElement('div');
+        header.className = 'flex items-center mb-2';
+        header.appendChild(createStatusDot(agent.status));
+        const name = document.createElement('h3');
+        name.className = 'text-lg font-semibold truncate';
+        name.textContent = agent.name;
+        header.appendChild(name);
+        card.appendChild(header);
+
+        const type = document.createElement('p');
+        type.className = 'text-gray-400 text-sm mb-1';
+        type.textContent = `Type: ${agent.type}`;
+        card.appendChild(type);
+
+        const uptime = document.createElement('p');
+        uptime.className = 'text-gray-400 text-sm mb-1 font-mono';
+        uptime.textContent = `Uptime: ${formatUptime(agent.uptime)}`;
+        card.appendChild(uptime);
+
+        const load = document.createElement('p');
+        load.className = 'text-gray-400 text-sm mb-1 font-mono';
+        load.textContent = `Load: ${agent.load}%`;
+        card.appendChild(load);
+
+        const telemetry = document.createElement('p');
+        telemetry.className = 'text-gray-400 text-sm font-mono';
+        telemetry.textContent = `CPU: ${agent.cpu}% | Mem: ${agent.memory}% | Latency: ${agent.latency}ms`;
+        card.appendChild(telemetry);
+
+        card.addEventListener('click', () => {
+          openSideDrawerForAgent(agent);
+          logToConsole(`useUIStore().onClick(agent) → openDrawer(${agent.id})`);
+        });
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openSideDrawerForAgent(agent);
+            logToConsole(`useUIStore().onClick(agent) → openDrawer(${agent.id})`);
+          }
+        });
+
+        return card;
+      }
+      function renderAgentCards() {
+        agentCardsContainer.innerHTML = '';
+        dummyAgents.forEach((agent) => {
+          agentCardsContainer.appendChild(createAgentCard(agent));
+        });
+      }
+
+      // Side drawer open/close for agent or event
+      function openSideDrawerForAgent(agent) {
+        sideDrawerTitle.textContent = `<AgentDrawer>: ${agent.name}`;
+        sideDrawerContent.textContent = `ID: ${agent.id}\nType: ${agent.type}\nStatus: ${agent.status}\nUptime: ${formatUptime(agent.uptime)}\nLoad: ${agent.load}%\nCPU: ${agent.cpu}%\nMemory: ${agent.memory}%\nLatency: ${agent.latency}ms\n\n[Simulated detailed telemetry and logs...]`;
+        sideDrawer.classList.add('open');
+        sideDrawer.setAttribute('aria-hidden', 'false');
+        sideDrawerContent.focus();
+      }
+      function openSideDrawerForEvent(event) {
+        sideDrawerTitle.textContent = `<AuditDrawer>: Event ID ${event.id}`;
+        sideDrawerContent.textContent = `Timestamp: ${formatTime(event.timestamp)}\nAgent: ${event.agentId}\nSeverity: ${event.severity}\nTag: ${event.tag}\nMessage:\n${event.message}\n\n[Simulated audit trace and logs...]`;
+        sideDrawer.classList.add('open');
+        sideDrawer.setAttribute('aria-hidden', 'false');
+        sideDrawerContent.focus();
+      }
+      sideDrawerCloseBtn.addEventListener('click', () => {
+        sideDrawer.classList.remove('open');
+        sideDrawer.setAttribute('aria-hidden', 'true');
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sideDrawer.classList.contains('open')) {
+          sideDrawer.classList.remove('open');
+          sideDrawer.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      // Timeline Screen: horizontal scroll with click-to-expand and severity filter
+      const timelineSeverityFilter = document.getElementById('timeline-severity-filter');
+      const timelineEventList = document.getElementById('timeline-event-list');
+
+      function populateTimelineFilters() {
+        timelineSeverityFilter.innerHTML = '';
+        ['high', 'medium', 'low'].forEach((sev) => {
+          const option = document.createElement('option');
+          option.value = sev;
+          option.textContent = sev.charAt(0).toUpperCase() + sev.slice(1);
+          option.selected = true;
+          timelineSeverityFilter.appendChild(option);
+        });
+      }
+
+      let timelineFilteredSeverities = new Set(['high', 'medium', 'low']);
+
+      function updateTimelineFilters() {
+        timelineFilteredSeverities = new Set(
+          Array.from(timelineSeverityFilter.selectedOptions).map((opt) => opt.value)
+        );
+        renderTimelineEvents();
+        logToConsole(`useUIStore().onFilter(eventLevel) → refetchTimeline() with severities: ${[...timelineFilteredSeverities].join(', ')}`);
+      }
+
+      timelineSeverityFilter.addEventListener('change', updateTimelineFilters);
+
+      function renderTimelineEvents() {
+        timelineEventList.innerHTML = '';
+        const filteredEvents = dummyTimelineEvents.filter(
+          (e) => timelineFilteredSeverities.has(e.severity)
+        );
+        filteredEvents.sort((a, b) => a.timestamp - b.timestamp);
+        filteredEvents.forEach((e) => {
+          const li = document.createElement('li');
+          li.className = 'flex justify-between cursor-pointer hover:text-indigo-400';
+          li.tabIndex = 0;
+          li.setAttribute('role', 'button');
+          li.setAttribute('aria-label', `View audit trace for event ${e.id}`);
+          li.textContent = `[${formatTime(e.timestamp)}] ${e.message}`;
+          li.addEventListener('click', () => {
+            openSideDrawerForEvent(e);
+            logToConsole(`useUIStore().onClick(event) → openDrawer(event.id)`);
+          });
+          li.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter' || ev.key === ' ') {
+              ev.preventDefault();
+              openSideDrawerForEvent(e);
+              logToConsole(`useUIStore().onClick(event) → openDrawer(event.id)`);
+            }
+          });
+          timelineEventList.appendChild(li);
+        });
+      }
+
+      // Logs Screen: populate dummy logs
+      const logsContent = document.getElementById('logs-content');
+      function populateLogs() {
+        logsContent.textContent = '';
+        for (let i = 0; i < 100; i++) {
+          logsContent.textContent += `[12:00:${(i < 10 ? '0' : '') + i}] System log entry ${i + 1}\n`;
+        }
+      }
+
+      // Bottom Console logic
+      const bottomConsole = document.getElementById('bottom-console');
+      const bottomConsoleHeader = document.getElementById('bottom-console-header');
+      const bottomConsoleContent = document.getElementById('bottom-console-content');
+      const bottomConsoleToggleBtn = document.getElementById('bottom-console-toggle-btn');
+
+      let bottomConsoleCollapsed = true;
+
+      function toggleBottomConsole() {
+        bottomConsoleCollapsed = !bottomConsoleCollapsed;
+        if (bottomConsoleCollapsed) {
+          bottomConsole.classList.add('collapsed');
+          bottomConsoleContent.classList.add('hidden');
+          bottomConsoleToggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+          bottomConsoleHeader.setAttribute('aria-expanded', 'false');
+        } else {
+          bottomConsole.classList.remove('collapsed');
+          bottomConsoleContent.classList.remove('hidden');
+          bottomConsoleToggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
+          bottomConsoleHeader.setAttribute('aria-expanded', 'true');
+          bottomConsoleContent.scrollTop = bottomConsoleContent.scrollHeight;
+        }
+      }
+
+      bottomConsoleHeader.addEventListener('click', toggleBottomConsole);
+      bottomConsoleToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleBottomConsole();
+      });
+
+      // Populate bottom console with messages
+      function populateBottomConsole() {
+        bottomConsoleContent.textContent = bottomConsoleMessages.join('\n');
+      }
+
+      // Log to bottom console
+      function logToConsole(message) {
+        bottomConsoleContent.textContent += `[${new Date().toLocaleTimeString()}] ${message}\n`;
+        if (!bottomConsoleCollapsed) {
+          bottomConsoleContent.scrollTop = bottomConsoleContent.scrollHeight;
+        }
+      }
+
+      // Quantum Vector Matrix data and render
+      const quantumMatrixBody = document.getElementById('quantum-matrix-body');
+      function generateQuantumVectorMatrix() {
+        const matrix = [];
+        for (let i = 0; i < 8; i++) {
+          const row = [];
+          for (let j = 0; j < 8; j++) {
+            row.push((Math.random() * 2 - 1).toFixed(3));
+          }
+          matrix.push(row);
+        }
+        return matrix;
+      }
+      function renderQuantumVectorMatrix() {
+        quantumMatrixBody.innerHTML = '';
+        dummyAgents.slice(0, 8).forEach((agent, idx) => {
+          const row = document.createElement('tr');
+          const agentCell = document.createElement('th');
+          agentCell.scope = 'row';
+          agentCell.textContent = agent.name;
+          row.appendChild(agentCell);
+          const matrix = generateQuantumVectorMatrix();
+          matrix[idx].forEach((val) => {
+            const td = document.createElement('td');
+            td.textContent = val;
+            row.appendChild(td);
+          });
+          quantumMatrixBody.appendChild(row);
+        });
+      }
+
+      // Initialize all
+      function init() {
+        renderAgentCards();
+        populateTimelineFilters();
+        renderTimelineEvents();
+        populateLogs();
+        populateBottomConsole();
+        renderQuantumVectorMatrix();
+        highlightNav('dashboard');
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
